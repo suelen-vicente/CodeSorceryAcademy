@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Part 6: Spring Boot fundamentals — start FinBank, project structure, dependency injection, first endpoint, and running the app." />
+  <meta name="keywords" content="Spring Boot, FinBank, Spring Initializr, Maven, dependency injection, controllers, models, REST API" />
+  <title>Part 6 — Spring Boot Fundamentals | Code Sorcery Academy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-950 text-gray-100">
+
+<header class="flex justify-between items-center px-6 py-4 border-b border-gray-800 sticky top-0 bg-gray-950/80 backdrop-blur">
+  <a href="index.html" class="text-xl font-bold" data-i18n="brand">Code Sorcery Academy</a>
+  <nav class="space-x-6 text-sm flex items-center">
+    <a href="index.html" class="hover:text-indigo-400" data-i18n="nav_home">Home</a>
+    <a href="portfolio.html" class="hover:text-indigo-400" data-i18n="nav_portfolio">Portfolio</a>
+    <a href="tutorials.html" class="text-indigo-400" data-i18n="nav_tutorials">Tutorials</a>
+    <a href="blog.html" class="hover:text-indigo-400" data-i18n="nav_blog">Blog</a>
+    <button id="lang-toggle" class="ml-4 rounded font-semibold">🇧🇷</button>
+  </nav>
+</header>
+
+<section class="text-center py-14 px-6 hero-animation">
+  <p class="text-indigo-400 text-sm tracking-widest uppercase mb-3">Part 6</p>
+  <h1 class="text-4xl md:text-5xl font-bold mb-4">Spring Boot Fundamentals</h1>
+  <p class="text-gray-400 max-w-3xl mx-auto text-lg">
+    In the previous lesson, we learned the principles of REST. Now, we’ll introduce Spring Boot.
+    From now on, we will start building APIs for our imaginary fintech: FinBank.
+  </p>
+  <div class="mt-8 flex items-center justify-center gap-3">
+    <a href="course-rest-apis-java-spring-part-5.html" class="px-5 py-3 border border-gray-800 rounded-xl hover:border-indigo-500 hover:bg-indigo-500/10 hover:text-indigo-300">
+      ← Part 5
+    </a>
+    <a href="course-rest-apis-java-spring-part-7.html" class="btn-primary px-5 py-3 text-white rounded-xl font-semibold">
+      Next: First Endpoint →
+    </a>
+  </div>
+</section>
+
+<main class="px-6 pb-20">
+  <div class="max-w-4xl mx-auto space-y-10">
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">What is Spring Boot?</h2>
+      <p class="text-gray-300 mb-4">
+        Spring Boot is a Java framework that simplifies creating production-ready applications by providing:
+      </p>
+      <ul class="list-disc list-inside text-gray-300 space-y-1">
+        <li><span class="font-semibold">Auto-configuration</span> – detects and configures components automatically</li>
+        <li><span class="font-semibold">Embedded server</span> – no need to manually deploy to Tomcat or another server</li>
+        <li><span class="font-semibold">Starter dependencies</span> – bundles of dependencies for common use cases</li>
+      </ul>
+      <p class="text-gray-300 mt-5 mb-2">For FinBank, this means we can:</p>
+      <ul class="list-disc list-inside text-gray-300 space-y-1">
+        <li>Quickly set up endpoints for accounts, customers, and transactions</li>
+        <li>Easily connect to databases</li>
+        <li>Focus on business logic instead of boilerplate code</li>
+      </ul>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">Setting Up a Spring Boot Project</h2>
+      <p class="text-gray-300 mb-4">
+        The easiest way to start is Spring Initializr.
+      </p>
+      <div class="bg-gray-950 border border-gray-800 rounded-xl p-4 overflow-x-auto">
+        <pre class="text-sm font-mono leading-relaxed"><code class="language-text">https://start.spring.io/</code></pre>
+      </div>
+      <p class="text-gray-300 mt-4 mb-2">Choose:</p>
+      <ul class="list-disc list-inside text-gray-300 space-y-1">
+        <li>Project: Maven</li>
+        <li>Language: Java</li>
+        <li>Spring Boot Version: Latest stable</li>
+        <li>Dependencies: Spring Web, Spring Data JPA, Lombok, Validation</li>
+      </ul>
+      <p class="text-gray-300 mt-4">
+        Click Generate, extract the ZIP, and open it in your IDE.
+      </p>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">Understanding the Project Structure</h2>
+      <p class="text-gray-300 mb-4">
+        A Spring Boot project will have a structure like this:
+      </p>
+      <div class="bg-gray-950 border border-gray-800 rounded-xl p-4 overflow-x-auto">
+        <pre class="text-sm font-mono leading-relaxed"><code class="language-text">src/main/java
+ └── com.finbank
+     ├── FinBankApplication.java   // Main class
+     ├── controller                // REST controllers
+     ├── model                     // Entities (Customer, Account, Transaction)
+     ├── repository                // Data access layer
+     ├── service                   // Business logic</code></pre>
+      </div>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">The Main Application Class</h2>
+      <p class="text-gray-300 mb-4">
+        The main class contains the <span class="font-semibold">@SpringBootApplication</span> annotation.
+        This starts the application with an embedded Tomcat server.
+      </p>
+      <div class="bg-gray-950 border border-gray-800 rounded-xl p-4 overflow-x-auto">
+        <pre class="text-sm font-mono leading-relaxed"><code class="language-java">package com.finbank;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class FinBankApplication {
+  public static void main(String[] args) {
+    SpringApplication.run(FinBankApplication.class, args);
+  }
+}</code></pre>
+      </div>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">Dependency Injection in Spring Boot</h2>
+      <p class="text-gray-300 mb-4">
+        Spring Boot uses Dependency Injection (DI) to manage components.
+        Example – injecting a CustomerService into a CustomerController:
+      </p>
+      <div class="bg-gray-950 border border-gray-800 rounded-xl p-4 overflow-x-auto">
+        <pre class="text-sm font-mono leading-relaxed"><code class="language-java">package com.finbank.controller;
+
+import com.finbank.service.CustomerService;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api/customers")
+public class CustomerController {
+
+  private final CustomerService customerService;
+
+  public CustomerController(CustomerService customerService) {
+    this.customerService = customerService;
+  }
+
+  @GetMapping("/{id}")
+  public String getCustomer(@PathVariable String id) {
+    return customerService.findCustomerById(id);
+  }
+}</code></pre>
+      </div>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">Example – First FinBank Endpoint</h2>
+      <p class="text-gray-300 mb-4">
+        Let’s create a basic endpoint to return all accounts.
+      </p>
+      <p class="font-semibold mb-2 text-gray-200">Model:</p>
+      <div class="bg-gray-950 border border-gray-800 rounded-xl p-4 overflow-x-auto">
+        <pre class="text-sm font-mono leading-relaxed"><code class="language-java">package com.finbank.model;
+
+public class Account {
+  private String accountNumber;
+  private String type;
+  private double balance;
+
+  // Constructor, getters, setters
+}</code></pre>
+      </div>
+      <p class="font-semibold mt-5 mb-2 text-gray-200">Controller:</p>
+      <div class="bg-gray-950 border border-gray-800 rounded-xl p-4 overflow-x-auto">
+        <pre class="text-sm font-mono leading-relaxed"><code class="language-java">package com.finbank.controller;
+
+import com.finbank.model.Account;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/accounts")
+public class AccountController {
+
+  @GetMapping
+  public List&lt;Account&gt; getAllAccounts() {
+    return List.of(
+        new Account("123", "Checking", 1200.0),
+        new Account("456", "Savings", 5000.0)
+    );
+  }
+}</code></pre>
+      </div>
+      <p class="text-sm text-gray-400 mt-4">
+        If we start the application and visit:
+      </p>
+      <div class="bg-gray-950 border border-gray-800 rounded-xl p-4 overflow-x-auto">
+        <pre class="text-sm font-mono leading-relaxed"><code class="language-text">http://localhost:8080/api/accounts</code></pre>
+      </div>
+      <p class="text-sm text-gray-400 mt-4">
+        We’ll get a JSON list of accounts.
+      </p>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">Running the Application</h2>
+      <p class="text-gray-300 mb-4">
+        Run:
+      </p>
+      <div class="bg-gray-950 border border-gray-800 rounded-xl p-4 overflow-x-auto">
+        <pre class="text-sm font-mono leading-relaxed"><code class="language-bash">mvn spring-boot:run</code></pre>
+      </div>
+      <p class="text-gray-300 mt-4">
+        Or in your IDE, run the <span class="font-semibold">main()</span> method in <span class="font-semibold">FinBankApplication</span>.
+      </p>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">Next Steps</h2>
+      <p class="text-gray-300 mb-6">
+        In the next part, we’ll connect to a database and create a real endpoint for FinBank customers.
+        Thank you, and see you on next post!
+      </p>
+      <div class="text-center">
+        <a href="course-rest-apis-java-spring-part-7.html" class="btn-primary px-6 py-3 text-white rounded-xl font-semibold">
+          Continue to Part 7 →
+        </a>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="text-center py-10 border-t border-gray-800 text-gray-500 text-sm">
+  <p data-i18n="footer">© 2026 Code Sorcery Academy — Forged in Canada 🇨🇦</p>
+</footer>
+
+<script src="script.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Part 11: Using DTOs for clean API boundaries." />
+  <meta name="keywords" content="DTOs, API contract, entities, mapping, Spring Boot, clean architecture" />
+  <title>Part 11 — Using DTOs | Code Sorcery Academy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-950 text-gray-100">
+
+<header class="flex justify-between items-center px-6 py-4 border-b border-gray-800 sticky top-0 bg-gray-950/80 backdrop-blur">
+  <a href="index.html" class="text-xl font-bold" data-i18n="brand">Code Sorcery Academy</a>
+  <nav class="space-x-6 text-sm flex items-center">
+    <a href="index.html" class="hover:text-indigo-400" data-i18n="nav_home">Home</a>
+    <a href="portfolio.html" class="hover:text-indigo-400" data-i18n="nav_portfolio">Portfolio</a>
+    <a href="tutorials.html" class="text-indigo-400" data-i18n="nav_tutorials">Tutorials</a>
+    <a href="blog.html" class="hover:text-indigo-400" data-i18n="nav_blog">Blog</a>
+    <button id="lang-toggle" class="ml-4 rounded font-semibold">🇧🇷</button>
+  </nav>
+</header>
+
+<section class="text-center py-14 px-6 hero-animation">
+  <p class="text-indigo-400 text-sm tracking-widest uppercase mb-3">Part 11</p>
+  <h1 class="text-4xl md:text-5xl font-bold mb-4">Using DTOs</h1>
+  <p class="text-gray-400 max-w-3xl mx-auto text-lg">
+    Until now, you might be validating directly on an entity. It works at first.
+    But in real systems, mixing API formats with persistence entities causes long-term pain.
+  </p>
+  <div class="mt-8 flex items-center justify-center gap-3">
+    <a href="course-rest-apis-java-spring-part-10.html" class="px-5 py-3 border border-gray-800 rounded-xl hover:border-indigo-500 hover:bg-indigo-500/10 hover:text-indigo-300">
+      ← Part 10
+    </a>
+    <a href="course-rest-apis-java-spring.html" class="btn-primary px-5 py-3 text-white rounded-xl font-semibold">
+      Back to Timeline
+    </a>
+  </div>
+</section>
+
+<main class="px-6 pb-20">
+  <div class="max-w-4xl mx-auto space-y-10">
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">Why DTOs matter</h2>
+      <div class="grid md:grid-cols-2 gap-4 text-gray-300">
+        <div class="bg-gray-950/40 border border-gray-800 rounded-xl p-4">
+          <p class="font-semibold mb-1">Stability</p>
+          <p class="text-sm text-gray-400">Entities evolve with DB. API contracts should evolve carefully.</p>
+        </div>
+        <div class="bg-gray-950/40 border border-gray-800 rounded-xl p-4">
+          <p class="font-semibold mb-1">Security</p>
+          <p class="text-sm text-gray-400">Entities often contain internal fields you should never expose.</p>
+        </div>
+        <div class="bg-gray-950/40 border border-gray-800 rounded-xl p-4">
+          <p class="font-semibold mb-1">Clarity</p>
+          <p class="text-sm text-gray-400">Request/response formats become explicit and documented.</p>
+        </div>
+        <div class="bg-gray-950/40 border border-gray-800 rounded-xl p-4">
+          <p class="font-semibold mb-1">AI safety</p>
+          <p class="text-sm text-gray-400">AI-generated code tends to “just return the entity”. DTOs prevent that leak.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">Example: Entity vs DTO</h2>
+      <div class="bg-gray-950 border border-gray-800 rounded-xl p-4 overflow-x-auto">
+        <pre class="text-sm font-mono leading-relaxed"><code class="language-java">// Entity (persistence shape)
+final class CustomerEntity {
+  String id;
+  String name;
+  String email;
+  String internalRiskFlag; // never expose
+}
+
+// DTOs (API contract)
+record CreateCustomerRequest(String name, String email) {}
+record CustomerResponse(String id, String name, String email) {}</code></pre>
+      </div>
+      <p class="text-sm text-gray-400 mt-4">
+        Keep mapping explicit. If your system grows, consider mapping tools — but don’t hide logic in “magic mapping”.
+      </p>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">AI Review Checklist (DTOs)</h2>
+      <ul class="list-disc list-inside text-gray-300 space-y-1">
+        <li>Are controllers returning DTOs (not entities)?</li>
+        <li>Is mapping code tested for edge cases?</li>
+        <li>Any accidental exposure of internal fields?</li>
+        <li>Is validation placed on request DTOs?</li>
+      </ul>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">Final Quest</h2>
+      <ol class="list-decimal list-inside text-gray-300 space-y-2">
+        <li>Refactor one endpoint: entity-in, entity-out → DTO-in, DTO-out.</li>
+        <li>Add a new internal entity field and confirm the API contract stays stable.</li>
+        <li>Ask AI to refactor another endpoint and review for leaks and boundary mistakes.</li>
+      </ol>
+      <div class="text-center mt-8">
+        <a href="course-rest-apis-java-spring.html" class="px-6 py-3 border border-gray-800 rounded-xl hover:border-indigo-500 hover:bg-indigo-500/10 hover:text-indigo-300">
+          Review the full timeline →
+        </a>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="text-center py-10 border-t border-gray-800 text-gray-500 text-sm">
+  <p data-i18n="footer">© 2026 Code Sorcery Academy — Forged in Canada 🇨🇦</p>
+</footer>
+
+<script src="script.js"></script>
+
+</body>
+</html>

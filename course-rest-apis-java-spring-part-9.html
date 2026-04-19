@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Part 9: Exception handling and error responses for FinBank." />
+  <meta name="keywords" content="exceptions, error responses, controller advice, Spring Boot, API contract" />
+  <title>Part 9 — Exception Handling & Error Responses | Code Sorcery Academy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-950 text-gray-100">
+
+<header class="flex justify-between items-center px-6 py-4 border-b border-gray-800 sticky top-0 bg-gray-950/80 backdrop-blur">
+  <a href="index.html" class="text-xl font-bold" data-i18n="brand">Code Sorcery Academy</a>
+  <nav class="space-x-6 text-sm flex items-center">
+    <a href="index.html" class="hover:text-indigo-400" data-i18n="nav_home">Home</a>
+    <a href="portfolio.html" class="hover:text-indigo-400" data-i18n="nav_portfolio">Portfolio</a>
+    <a href="tutorials.html" class="text-indigo-400" data-i18n="nav_tutorials">Tutorials</a>
+    <a href="blog.html" class="hover:text-indigo-400" data-i18n="nav_blog">Blog</a>
+    <button id="lang-toggle" class="ml-4 rounded font-semibold">🇧🇷</button>
+  </nav>
+</header>
+
+<section class="text-center py-14 px-6 hero-animation">
+  <p class="text-indigo-400 text-sm tracking-widest uppercase mb-3">Part 9</p>
+  <h1 class="text-4xl md:text-5xl font-bold mb-4">Exception Handling and Error Responses</h1>
+  <p class="text-gray-400 max-w-3xl mx-auto text-lg">
+    In real-world applications, things will go wrong.
+    In this lesson, we set up centralized exception handling for the FinBank API.
+  </p>
+  <div class="mt-8 flex items-center justify-center gap-3">
+    <a href="course-rest-apis-java-spring-part-8.html" class="px-5 py-3 border border-gray-800 rounded-xl hover:border-indigo-500 hover:bg-indigo-500/10 hover:text-indigo-300">
+      ← Part 8
+    </a>
+    <a href="course-rest-apis-java-spring-part-10.html" class="btn-primary px-5 py-3 text-white rounded-xl font-semibold">
+      Next: Validation →
+    </a>
+  </div>
+</section>
+
+<main class="px-6 pb-20">
+  <div class="max-w-4xl mx-auto space-y-10">
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">Centralized exception handling</h2>
+      <p class="text-gray-300 mb-4">
+        A consistent error layer is a major quality marker.
+        It also makes AI-assisted changes safer: you don’t have ad-hoc error formats scattered across controllers.
+      </p>
+      <div class="bg-gray-950 border border-gray-800 rounded-xl p-4 overflow-x-auto">
+        <pre class="text-sm font-mono leading-relaxed"><code class="language-java">import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+@RestControllerAdvice
+final class ApiExceptionHandler {
+  @ExceptionHandler(NotFoundException.class)
+  ResponseEntity&lt;ApiError&gt; notFound(NotFoundException ex) {
+    return ResponseEntity.status(HttpStatus.NOT_FOUND)
+        .body(ApiError.notFound(ex.getMessage()));
+  }
+}</code></pre>
+      </div>
+      <p class="text-sm text-gray-400 mt-4">
+        Keep <span class="font-semibold">ApiError</span> stable: it’s part of your public contract.
+      </p>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">AI Review Checklist (Exceptions)</h2>
+      <ul class="list-disc list-inside text-gray-300 space-y-1">
+        <li>Are exceptions mapped to the right status codes?</li>
+        <li>Is error shape consistent across endpoints?</li>
+        <li>Any leaks of internal details?</li>
+        <li>Are logs/traces correlated (traceId)?</li>
+      </ul>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">Quest</h2>
+      <ol class="list-decimal list-inside text-gray-300 space-y-2">
+        <li>Create 3 custom exceptions: not found, conflict, validation.</li>
+        <li>Map them centrally to your error contract.</li>
+        <li>Ask AI to add more mappings and review for status consistency.</li>
+        <li>Add tests for error shape and status codes.</li>
+      </ol>
+    </section>
+
+  </div>
+</main>
+
+<footer class="text-center py-10 border-t border-gray-800 text-gray-500 text-sm">
+  <p data-i18n="footer">© 2026 Code Sorcery Academy — Forged in Canada 🇨🇦</p>
+</footer>
+
+<script src="script.js"></script>
+
+</body>
+</html>

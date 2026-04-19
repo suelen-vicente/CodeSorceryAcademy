@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Part 8: Connecting FinBank to a real database." />
+  <meta name="keywords" content="H2, MySQL, MongoDB, Oracle, Spring Data, database integration" />
+  <title>Part 8 — Connecting to a Real Database | Code Sorcery Academy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-950 text-gray-100">
+
+<header class="flex justify-between items-center px-6 py-4 border-b border-gray-800 sticky top-0 bg-gray-950/80 backdrop-blur">
+  <a href="index.html" class="text-xl font-bold" data-i18n="brand">Code Sorcery Academy</a>
+  <nav class="space-x-6 text-sm flex items-center">
+    <a href="index.html" class="hover:text-indigo-400" data-i18n="nav_home">Home</a>
+    <a href="portfolio.html" class="hover:text-indigo-400" data-i18n="nav_portfolio">Portfolio</a>
+    <a href="tutorials.html" class="text-indigo-400" data-i18n="nav_tutorials">Tutorials</a>
+    <a href="blog.html" class="hover:text-indigo-400" data-i18n="nav_blog">Blog</a>
+    <button id="lang-toggle" class="ml-4 rounded font-semibold">🇧🇷</button>
+  </nav>
+</header>
+
+<section class="text-center py-14 px-6 hero-animation">
+  <p class="text-indigo-400 text-sm tracking-widest uppercase mb-3">Part 8</p>
+  <h1 class="text-4xl md:text-5xl font-bold mb-4">Connecting to a Real Database</h1>
+  <p class="text-gray-400 max-w-3xl mx-auto text-lg">
+    H2 is great for learning and quick tests, but production needs a persistent database.
+    In this lesson, we connect FinBank to a real database and talk about trade-offs.
+  </p>
+  <div class="mt-8 flex items-center justify-center gap-3">
+    <a href="course-rest-apis-java-spring-part-7.html" class="px-5 py-3 border border-gray-800 rounded-xl hover:border-indigo-500 hover:bg-indigo-500/10 hover:text-indigo-300">
+      ← Part 7
+    </a>
+    <a href="course-rest-apis-java-spring-part-9.html" class="btn-primary px-5 py-3 text-white rounded-xl font-semibold">
+      Next: Exceptions →
+    </a>
+  </div>
+</section>
+
+<main class="px-6 pb-20">
+  <div class="max-w-4xl mx-auto space-y-10">
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">Persistence options (and when)</h2>
+      <div class="grid md:grid-cols-2 gap-4 text-gray-300">
+        <div class="bg-gray-950/40 border border-gray-800 rounded-xl p-4">
+          <p class="font-semibold mb-1">MySQL / Postgres</p>
+          <p class="text-sm text-gray-400">Strong relational model, great for typical APIs, transactions, and reporting.</p>
+        </div>
+        <div class="bg-gray-950/40 border border-gray-800 rounded-xl p-4">
+          <p class="font-semibold mb-1">MongoDB</p>
+          <p class="text-sm text-gray-400">Document model, flexible schema, great for some event-like or document workloads.</p>
+        </div>
+        <div class="bg-gray-950/40 border border-gray-800 rounded-xl p-4">
+          <p class="font-semibold mb-1">Oracle (real-world kingdom)</p>
+          <p class="text-sm text-gray-400">Powerful optimizer and enterprise features — but demands respect for schema, indexes, and plans.</p>
+        </div>
+        <div class="bg-gray-950/40 border border-gray-800 rounded-xl p-4">
+          <p class="font-semibold mb-1">H2 (learning and tests)</p>
+          <p class="text-sm text-gray-400">Fast local iteration; not a perfect match for production behavior.</p>
+        </div>
+      </div>
+      <div class="mt-6 bg-indigo-500/10 border border-indigo-500/30 rounded-xl p-4 text-gray-200">
+        <p class="font-semibold mb-1">Senior note</p>
+        <p class="text-sm text-gray-300">
+          “It works on H2” is not proof. Different databases have different SQL dialects, index behavior, and locking semantics.
+        </p>
+      </div>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">AI Review Checklist (DB integration)</h2>
+      <ul class="list-disc list-inside text-gray-300 space-y-1">
+        <li>Are connection pool settings sane (timeouts, max pool)?</li>
+        <li>Are transactions defined intentionally?</li>
+        <li>Any N+1 queries or lazy-loading surprises?</li>
+        <li>Does the migration strategy exist (Flyway/Liquibase), or is schema “manual”?</li>
+      </ul>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">Quest</h2>
+      <ol class="list-decimal list-inside text-gray-300 space-y-2">
+        <li>Switch FinBank from in-memory DB to a persistent DB.</li>
+        <li>Define schema migrations (even if minimal).</li>
+        <li>Load test a single endpoint and inspect query count and latency.</li>
+        <li>Ask AI to “optimize” and review for correctness and plan-aware performance.</li>
+      </ol>
+    </section>
+
+  </div>
+</main>
+
+<footer class="text-center py-10 border-t border-gray-800 text-gray-500 text-sm">
+  <p data-i18n="footer">© 2026 Code Sorcery Academy — Forged in Canada 🇨🇦</p>
+</footer>
+
+<script src="script.js"></script>
+
+</body>
+</html>

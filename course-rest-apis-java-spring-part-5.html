@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Part 5: RESTful API principles — resources, endpoints, HTTP methods, status codes, JSON, and best practices." />
+  <meta name="keywords" content="REST, RESTful APIs, resources, endpoints, HTTP methods, status codes, JSON, API versioning, pagination" />
+  <title>Part 5 — Introduction to RESTful APIs | Code Sorcery Academy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-950 text-gray-100">
+
+<header class="flex justify-between items-center px-6 py-4 border-b border-gray-800 sticky top-0 bg-gray-950/80 backdrop-blur">
+  <a href="index.html" class="text-xl font-bold" data-i18n="brand">Code Sorcery Academy</a>
+  <nav class="space-x-6 text-sm flex items-center">
+    <a href="index.html" class="hover:text-indigo-400" data-i18n="nav_home">Home</a>
+    <a href="portfolio.html" class="hover:text-indigo-400" data-i18n="nav_portfolio">Portfolio</a>
+    <a href="tutorials.html" class="text-indigo-400" data-i18n="nav_tutorials">Tutorials</a>
+    <a href="blog.html" class="hover:text-indigo-400" data-i18n="nav_blog">Blog</a>
+    <button id="lang-toggle" class="ml-4 rounded font-semibold">🇧🇷</button>
+  </nav>
+</header>
+
+<section class="text-center py-14 px-6 hero-animation">
+  <p class="text-indigo-400 text-sm tracking-widest uppercase mb-3">Part 5</p>
+  <h1 class="text-4xl md:text-5xl font-bold mb-4">Introduction to RESTful APIs</h1>
+  <p class="text-gray-400 max-w-3xl mx-auto text-lg">
+    Now that we’ve set up our development environment, explored Java fundamentals, and handled errors,
+    it’s time to understand the principles behind RESTful APIs.
+  </p>
+  <div class="mt-8 flex items-center justify-center gap-3">
+    <a href="course-rest-apis-java-spring-part-4.html" class="px-5 py-3 border border-gray-800 rounded-xl hover:border-indigo-500 hover:bg-indigo-500/10 hover:text-indigo-300">
+      ← Part 4
+    </a>
+    <a href="course-rest-apis-java-spring-part-6.html" class="btn-primary px-5 py-3 text-white rounded-xl font-semibold">
+      Next: Spring Boot →
+    </a>
+  </div>
+</section>
+
+<main class="px-6 pb-20">
+  <div class="max-w-4xl mx-auto space-y-10">
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">What is REST?</h2>
+      <p class="text-gray-300 mb-4">
+        REST (Representational State Transfer) is an architectural style for building APIs.
+        It uses HTTP methods to operate on resources, which are typically represented in JSON.
+      </p>
+      <p class="text-gray-300 mb-2">In a bank example, a resource could be:</p>
+      <ul class="list-disc list-inside text-gray-300 space-y-1">
+        <li>A Customer</li>
+        <li>A Bank Account</li>
+        <li>A Transaction</li>
+      </ul>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">Resources and Endpoints</h2>
+      <p class="text-gray-300 mb-4">
+        A resource is identified by a URL. For example:
+      </p>
+      <div class="bg-gray-950 border border-gray-800 rounded-xl p-4 overflow-x-auto">
+        <pre class="text-sm font-mono leading-relaxed"><code class="language-text">GET /api/customers/123</code></pre>
+      </div>
+      <p class="text-sm text-gray-400 mt-4">
+        This endpoint retrieves the customer with ID 123.
+      </p>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">HTTP Methods in REST</h2>
+      <p class="text-gray-300 mb-4">
+        In REST, different HTTP methods indicate what action you want to perform:
+      </p>
+      <div class="bg-gray-950/40 border border-gray-800 rounded-xl p-4 overflow-x-auto">
+        <table class="w-full text-left text-sm">
+          <thead class="text-gray-300">
+            <tr>
+              <th class="py-2 pr-4">Method</th>
+              <th class="py-2 pr-4">Purpose</th>
+              <th class="py-2">Example in FinBank</th>
+            </tr>
+          </thead>
+          <tbody class="text-gray-400">
+            <tr class="border-t border-gray-800">
+              <td class="py-2 pr-4 font-semibold text-gray-200">GET</td>
+              <td class="py-2 pr-4">Retrieve data</td>
+              <td class="py-2">GET /api/accounts/456 → Get account details</td>
+            </tr>
+            <tr class="border-t border-gray-800">
+              <td class="py-2 pr-4 font-semibold text-gray-200">POST</td>
+              <td class="py-2 pr-4">Create new data</td>
+              <td class="py-2">POST /api/accounts → Create a new account</td>
+            </tr>
+            <tr class="border-t border-gray-800">
+              <td class="py-2 pr-4 font-semibold text-gray-200">PUT</td>
+              <td class="py-2 pr-4">Update an existing resource</td>
+              <td class="py-2">PUT /api/accounts/456 → Replace account details</td>
+            </tr>
+            <tr class="border-t border-gray-800">
+              <td class="py-2 pr-4 font-semibold text-gray-200">PATCH</td>
+              <td class="py-2 pr-4">Partially update a resource</td>
+              <td class="py-2">PATCH /api/accounts/456 → Update account balance only</td>
+            </tr>
+            <tr class="border-t border-gray-800">
+              <td class="py-2 pr-4 font-semibold text-gray-200">DELETE</td>
+              <td class="py-2 pr-4">Remove a resource</td>
+              <td class="py-2">DELETE /api/accounts/456 → Close the account</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">HTTP Status Codes</h2>
+      <p class="text-gray-300 mb-4">
+        When a REST API responds, it includes a status code to indicate the result.
+        There’s a variety of codes that can be used (like 422, 403, etc.), but here are common ones:
+      </p>
+      <div class="bg-gray-950/40 border border-gray-800 rounded-xl p-4 overflow-x-auto">
+        <table class="w-full text-left text-sm">
+          <thead class="text-gray-300">
+            <tr>
+              <th class="py-2 pr-4">Code</th>
+              <th class="py-2 pr-4">Meaning</th>
+              <th class="py-2">Example in FinBank</th>
+            </tr>
+          </thead>
+          <tbody class="text-gray-400">
+            <tr class="border-t border-gray-800">
+              <td class="py-2 pr-4 font-semibold text-gray-200">200 OK</td>
+              <td class="py-2 pr-4">Request succeeded</td>
+              <td class="py-2">Account details retrieved</td>
+            </tr>
+            <tr class="border-t border-gray-800">
+              <td class="py-2 pr-4 font-semibold text-gray-200">201 Created</td>
+              <td class="py-2 pr-4">Resource created</td>
+              <td class="py-2">New account successfully opened</td>
+            </tr>
+            <tr class="border-t border-gray-800">
+              <td class="py-2 pr-4 font-semibold text-gray-200">400 Bad Request</td>
+              <td class="py-2 pr-4">Invalid input</td>
+              <td class="py-2">Transfer request missing amount</td>
+            </tr>
+            <tr class="border-t border-gray-800">
+              <td class="py-2 pr-4 font-semibold text-gray-200">401 Unauthorized</td>
+              <td class="py-2 pr-4">Authentication failed</td>
+              <td class="py-2">Missing or invalid API token</td>
+            </tr>
+            <tr class="border-t border-gray-800">
+              <td class="py-2 pr-4 font-semibold text-gray-200">404 Not Found</td>
+              <td class="py-2 pr-4">Resource not found</td>
+              <td class="py-2">Account ID doesn’t exist</td>
+            </tr>
+            <tr class="border-t border-gray-800">
+              <td class="py-2 pr-4 font-semibold text-gray-200">500 Internal Server Error</td>
+              <td class="py-2 pr-4">Server failure</td>
+              <td class="py-2">Unexpected error during transfer</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="text-sm text-gray-400 mt-4">
+        Usually, <span class="font-semibold">2xx</span> expresses success. <span class="font-semibold">4xx</span> means something blocked the operation.
+        <span class="font-semibold">5xx</span> is reserved for server and generic errors.
+      </p>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">JSON – The Standard API Data Format</h2>
+      <p class="text-gray-300 mb-4">
+        Most modern APIs exchange data in JSON.
+      </p>
+      <p class="font-semibold mb-2 text-gray-200">Example – JSON response from GET /api/accounts/456:</p>
+      <div class="bg-gray-950 border border-gray-800 rounded-xl p-4 overflow-x-auto">
+        <pre class="text-sm font-mono leading-relaxed"><code class="language-json">{
+  "accountNumber": "456",
+  "accountType": "Checking",
+  "balance": 1200.50,
+  "currency": "USD"
+}</code></pre>
+      </div>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">Designing RESTful Endpoints</h2>
+      <p class="text-gray-300 mb-4">
+        REST APIs should be intuitive and resource-based, not action-based.
+        You create endpoints to manipulate resources. The actions are defined by the HTTP method you use.
+      </p>
+      <div class="grid md:grid-cols-2 gap-4 text-gray-300">
+        <div class="bg-gray-950/40 border border-gray-800 rounded-xl p-4">
+          <p class="font-semibold mb-1 text-gray-200">Not recommended</p>
+          <div class="bg-gray-950 border border-gray-800 rounded-xl p-3 mt-2 overflow-x-auto">
+            <pre class="text-sm font-mono"><code class="language-text">POST /api/createNewAccount</code></pre>
+          </div>
+        </div>
+        <div class="bg-gray-950/40 border border-gray-800 rounded-xl p-4">
+          <p class="font-semibold mb-1 text-gray-200">Recommended</p>
+          <div class="bg-gray-950 border border-gray-800 rounded-xl p-3 mt-2 overflow-x-auto">
+            <pre class="text-sm font-mono"><code class="language-text">POST /api/accounts</code></pre>
+          </div>
+        </div>
+      </div>
+      <p class="font-semibold mt-5 mb-2 text-gray-200">Example:</p>
+      <div class="bg-gray-950 border border-gray-800 rounded-xl p-4 overflow-x-auto">
+        <pre class="text-sm font-mono leading-relaxed"><code class="language-text">GET /api/accounts/456/transactions</code></pre>
+      </div>
+      <p class="text-sm text-gray-400 mt-4">
+        Returns all transactions for account 456.
+      </p>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">REST Best Practices</h2>
+      <ul class="list-disc list-inside text-gray-300 space-y-1">
+        <li>Use nouns, not verbs in URLs (<span class="font-semibold">/customers</span>, not <span class="font-semibold">/getCustomers</span>)</li>
+        <li>Use plural resource names (<span class="font-semibold">/accounts</span>, not <span class="font-semibold">/account</span>)</li>
+        <li>Use HTTP status codes correctly</li>
+        <li>Version your API (<span class="font-semibold">/api/v1/accounts</span>)</li>
+        <li>Support filtering and pagination for large datasets</li>
+      </ul>
+      <p class="font-semibold mt-5 mb-2 text-gray-200">Example:</p>
+      <div class="bg-gray-950 border border-gray-800 rounded-xl p-4 overflow-x-auto">
+        <pre class="text-sm font-mono leading-relaxed"><code class="language-text">GET /api/transactions?minAmount=1000&page=2&size=20</code></pre>
+      </div>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">Next Steps</h2>
+      <p class="text-gray-300 mb-6">
+        Next, we’ll dive into Spring Boot, the framework that will help us bring our REST API to life with minimal configuration.
+        Thank you, and see you next post!
+      </p>
+      <div class="text-center">
+        <a href="course-rest-apis-java-spring-part-6.html" class="btn-primary px-6 py-3 text-white rounded-xl font-semibold">
+          Continue to Part 6 →
+        </a>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="text-center py-10 border-t border-gray-800 text-gray-500 text-sm">
+  <p data-i18n="footer">© 2026 Code Sorcery Academy — Forged in Canada 🇨🇦</p>
+</footer>
+
+<script src="script.js"></script>
+
+</body>
+</html>

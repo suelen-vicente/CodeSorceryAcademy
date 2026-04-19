@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Pergaminho III (Dados & Oracle): modelagem, SQL, JPA/Hibernate e performance com foco em Oracle." />
+  <meta name="keywords" content="Oracle, SQL, modelagem de dados, JPA, Hibernate, índices, transações, locks, performance" />
+  <title>Pergaminho III — Dados & Oracle | Code Sorcery Academy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-950 text-gray-100">
+
+<header class="flex justify-between items-center px-6 py-4 border-b border-gray-800 sticky top-0 bg-gray-950/80 backdrop-blur">
+  <a href="index.html" class="text-xl font-bold" data-i18n="brand">Code Sorcery Academy</a>
+  <nav class="space-x-6 text-sm flex items-center">
+    <a href="index.html" class="hover:text-indigo-400" data-i18n="nav_home">Home</a>
+    <a href="portfolio.html" class="hover:text-indigo-400" data-i18n="nav_portfolio">Portfolio</a>
+    <a href="tutorials.html" class="text-indigo-400" data-i18n="nav_tutorials">Tutorials</a>
+    <a href="blog.html" class="hover:text-indigo-400" data-i18n="nav_blog">Blog</a>
+    <button id="lang-toggle" class="ml-4 rounded font-semibold">🇧🇷</button>
+  </nav>
+</header>
+
+<section class="text-center py-16 px-6 hero-animation">
+  <p class="text-indigo-400 text-sm tracking-widest uppercase mb-3">Pergaminho III</p>
+  <h1 class="text-4xl md:text-5xl font-bold mb-4">Dados & Oracle: verdade, custo e concorrência</h1>
+  <p class="text-gray-400 max-w-3xl mx-auto text-lg">
+    Banco é onde a realidade mora. E Oracle é um reino com regras próprias: execução, planos, locks e custos que não perdoam.
+    Aqui você aprende a modelar para clareza e performance — e a revisar JPA com olhos de produção.
+  </p>
+  <div class="mt-8 flex items-center justify-center gap-3">
+    <a href="tutorial-scroll-2-apis-web.html" class="px-5 py-3 border border-gray-800 rounded-xl hover:border-indigo-500 hover:bg-indigo-500/10 hover:text-indigo-300">
+      ← Pergaminho II
+    </a>
+    <a href="tutorial-scroll-4-cloud-delivery.html" class="btn-primary px-5 py-3 text-white rounded-xl font-semibold">
+      Próximo: Cloud & Entrega →
+    </a>
+  </div>
+</section>
+
+<main class="px-6 pb-20">
+  <div class="max-w-4xl mx-auto space-y-10">
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">Princípio do pergaminho</h2>
+      <p class="text-gray-300">
+        Você não “usa banco”. Você negocia com ele. Cada consulta tem custo. Cada índice tem preço. Cada lock tem consequência.
+        A competência aparece quando você consegue responder: “O que isso faz com concorrência, cardinalidade e plano de execução?”
+      </p>
+      <div class="mt-5 grid md:grid-cols-3 gap-3 text-sm text-gray-300">
+        <div class="bg-gray-950/40 border border-gray-800 rounded-xl p-4">
+          <p class="font-semibold mb-1">Verdade</p>
+          <p class="text-gray-400">Constraints, chaves, integridade. O esquema é parte do domínio.</p>
+        </div>
+        <div class="bg-gray-950/40 border border-gray-800 rounded-xl p-4">
+          <p class="font-semibold mb-1">Custo</p>
+          <p class="text-gray-400">I/O, CPU, índices, estatísticas, joins. Otimizador não faz milagre.</p>
+        </div>
+        <div class="bg-gray-950/40 border border-gray-800 rounded-xl p-4">
+          <p class="font-semibold mb-1">Concorrência</p>
+          <p class="text-gray-400">Transações, locks, isolamento, idempotência. O bug mora no “ao mesmo tempo”.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">Modelagem que evita feitiço reverso</h2>
+      <p class="text-gray-300 mb-4">
+        “Tabela por entidade” é o começo, não o fim. Pense em invariantes e em como o banco protege o sistema contra bugs.
+      </p>
+      <div class="bg-gray-950/40 border border-gray-800 rounded-xl p-4 text-gray-300">
+        <p class="font-semibold mb-1">Checklist (schema como contrato)</p>
+        <ul class="list-disc list-inside text-sm space-y-1">
+          <li>PKs estáveis (evite “natural key” quando ela muda na vida real).</li>
+          <li>FKs e constraints onde o banco pode garantir invariantes.</li>
+          <li>Colunas com semântica clara (evite “status_code_1”, “flag2”).</li>
+          <li>Índices guiados por queries reais (não por esperança).</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">Oracle: índices, planos e estatísticas</h2>
+      <p class="text-gray-300 mb-4">
+        Performance em Oracle não é adivinhação: é plano. Se você não viu o plano, você não sabe.
+      </p>
+      <div class="bg-gray-950 border border-gray-800 rounded-xl p-4 overflow-x-auto">
+        <pre class="text-sm font-mono leading-relaxed"><code class="language-sql">-- Exemplo (didático): query típica de API
+SELECT o.id, o.customer_id, o.status, o.created_at
+FROM orders o
+WHERE o.customer_id = :customerId
+  AND o.created_at &gt;= :from
+ORDER BY o.created_at DESC
+FETCH FIRST :limit ROWS ONLY;</code></pre>
+      </div>
+      <div class="mt-5 grid md:grid-cols-2 gap-4 text-gray-300">
+        <div class="bg-gray-950/40 border border-gray-800 rounded-xl p-4">
+          <p class="font-semibold mb-1">Índice que conversa com a query</p>
+          <p class="text-sm text-gray-400">
+            Um índice composto em <span class="font-semibold">customer_id, created_at</span> pode reduzir I/O e ajudar o ORDER BY.
+            Mas lembre: cada índice custa em INSERT/UPDATE.
+          </p>
+        </div>
+        <div class="bg-gray-950/40 border border-gray-800 rounded-xl p-4">
+          <p class="font-semibold mb-1">Estatísticas importam</p>
+          <p class="text-sm text-gray-400">
+            Sem estatísticas boas, o otimizador pode escolher planos ruins. Em produção, o “de repente ficou lento” muitas vezes é isso.
+          </p>
+        </div>
+      </div>
+      <div class="mt-6 bg-indigo-500/10 border border-indigo-500/30 rounded-xl p-4 text-gray-200">
+        <p class="font-semibold mb-1">Pergunta de review (IA + JPA)</p>
+        <p class="text-sm text-gray-300">
+          “Que SQL isso gera? Qual o plano provável? Ele escala com cardinalidade ou só com dados de teste?”
+        </p>
+      </div>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">JPA/Hibernate: a magia e o preço</h2>
+      <p class="text-gray-300 mb-4">
+        ORM acelera produtividade — e cria armadilhas silenciosas. Você precisa reconhecer padrões que detonam performance ou consistência.
+      </p>
+      <div class="space-y-4 text-gray-300">
+        <div class="bg-gray-950/40 border border-gray-800 rounded-xl p-4">
+          <p class="font-semibold mb-1">N+1 (o clássico)</p>
+          <p class="text-sm text-gray-400">Se você não controla fetch, a IA vai “resolver” com loops e explode o banco com queries.</p>
+        </div>
+        <div class="bg-gray-950/40 border border-gray-800 rounded-xl p-4">
+          <p class="font-semibold mb-1">Paginação e ORDER BY</p>
+          <p class="text-sm text-gray-400">Pagination sem índice compatível vira full scan. Em Oracle, conheça bem as estratégias (OFFSET/FETCH) e o custo real.</p>
+        </div>
+        <div class="bg-gray-950/40 border border-gray-800 rounded-xl p-4">
+          <p class="font-semibold mb-1">Transação “grande demais”</p>
+          <p class="text-sm text-gray-400">Transação longa vira lock, lock vira fila, fila vira incidente. Quebre o fluxo, use outbox, replaneje.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">Quest: do endpoint ao plano de execução</h2>
+      <ol class="list-decimal list-inside text-gray-300 space-y-2">
+        <li>Escolha um endpoint real (ex.: listar pedidos com filtros e ordenação).</li>
+        <li>Escreva a query SQL “ideal” primeiro (com parâmetros e limites).</li>
+        <li>Defina 1–2 índices candidatos e justifique (custo de escrita vs leitura).</li>
+        <li>Implemente com JPA (ou JDBC) e peça para a IA sugerir melhorias.</li>
+        <li>Revise a sugestão com foco em: N+1, paginação, transação, locks e SQL gerado.</li>
+      </ol>
+      <div class="mt-6 bg-gray-950/40 border border-gray-800 rounded-xl p-4 text-gray-300">
+        <p class="font-semibold mb-1">Se você quiser subir o nível</p>
+        <p class="text-sm text-gray-400">
+          Adicione um caso de concorrência: duas requisições atualizando o mesmo pedido ao mesmo tempo. Decida estratégia:
+          optimistic lock (version), pessimistic lock, ou fila/evento.
+        </p>
+      </div>
+    </section>
+
+    <section class="text-center text-gray-400">
+      <p class="mb-4">Agora que os dados estão sob controle, é hora de colocar magia no mundo: build, deploy e ambientes.</p>
+      <a href="tutorial-scroll-4-cloud-delivery.html" class="btn-primary px-6 py-3 text-white rounded-xl font-semibold">
+        Ir para Pergaminho IV →
+      </a>
+    </section>
+
+  </div>
+</main>
+
+<footer class="text-center py-10 border-t border-gray-800 text-gray-500 text-sm">
+  <p data-i18n="footer">© 2026 Code Sorcery Academy — Forged in Canada 🇨🇦</p>
+</footer>
+
+<script src="script.js"></script>
+
+</body>
+</html>

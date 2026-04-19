@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Part 7: Connect FinBank to H2 and build a Customer CRUD API using Spring Data JPA (Entity, Repository, Service, Controller)." />
+  <meta name="keywords" content="CRUD, Spring Boot, Spring Data JPA, H2, application.properties, Entity, Repository, Service, Controller, Postman" />
+  <title>Part 7 — First Endpoint with Real Data | Code Sorcery Academy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-950 text-gray-100">
+
+<header class="flex justify-between items-center px-6 py-4 border-b border-gray-800 sticky top-0 bg-gray-950/80 backdrop-blur">
+  <a href="index.html" class="text-xl font-bold" data-i18n="brand">Code Sorcery Academy</a>
+  <nav class="space-x-6 text-sm flex items-center">
+    <a href="index.html" class="hover:text-indigo-400" data-i18n="nav_home">Home</a>
+    <a href="portfolio.html" class="hover:text-indigo-400" data-i18n="nav_portfolio">Portfolio</a>
+    <a href="tutorials.html" class="text-indigo-400" data-i18n="nav_tutorials">Tutorials</a>
+    <a href="blog.html" class="hover:text-indigo-400" data-i18n="nav_blog">Blog</a>
+    <button id="lang-toggle" class="ml-4 rounded font-semibold">🇧🇷</button>
+  </nav>
+</header>
+
+<section class="text-center py-14 px-6 hero-animation">
+  <p class="text-indigo-400 text-sm tracking-widest uppercase mb-3">Part 7</p>
+  <h1 class="text-4xl md:text-5xl font-bold mb-4">Building Your First Endpoint with Real Data</h1>
+  <p class="text-gray-400 max-w-3xl mx-auto text-lg">
+    In Part 6, we created our first Spring Boot project and a basic endpoint that returned hardcoded data.
+    Now, we’ll connect our FinBank API to a real database and build a CRUD (Create, Read, Update, Delete) endpoint for Customer data.
+  </p>
+  <div class="mt-8 flex items-center justify-center gap-3">
+    <a href="course-rest-apis-java-spring-part-6.html" class="px-5 py-3 border border-gray-800 rounded-xl hover:border-indigo-500 hover:bg-indigo-500/10 hover:text-indigo-300">
+      ← Part 6
+    </a>
+    <a href="course-rest-apis-java-spring-part-8.html" class="btn-primary px-5 py-3 text-white rounded-xl font-semibold">
+      Next: Real Database →
+    </a>
+  </div>
+</section>
+
+<main class="px-6 pb-20">
+  <div class="max-w-4xl mx-auto space-y-10">
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">What Is The Right Order?</h2>
+      <p class="text-gray-300 mb-4">
+        When building an API with Spring Boot and Spring Data JPA, there’s a logical flow:
+      </p>
+      <ol class="list-decimal list-inside text-gray-300 space-y-1">
+        <li><span class="font-semibold">Model your data</span> → Create an Entity (maps to a database table).</li>
+        <li><span class="font-semibold">Provide access to the data</span> → Create a Repository (interface to the database).</li>
+        <li><span class="font-semibold">Add business rules</span> → Create a Service (contains the logic).</li>
+        <li><span class="font-semibold">Expose it via HTTP</span> → Create a Controller (handles requests and responses).</li>
+      </ol>
+      <p class="text-sm text-gray-400 mt-4">
+        This “inside out” approach keeps your application modular and maintainable.
+      </p>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">Understanding Beans in Spring</h2>
+      <p class="text-gray-300 mb-4">
+        In Spring, a Bean is simply an object managed by the Spring container.
+        When you mark a class with annotations like <span class="font-semibold">@Service</span>, <span class="font-semibold">@Repository</span>, or <span class="font-semibold">@Controller</span>,
+        Spring creates and manages an instance of that class for you, so you don’t have to do it manually.
+      </p>
+      <p class="text-gray-300 mb-4">
+        Why it matters for FinBank: when our CustomerController needs a CustomerService, we don’t manually write <span class="font-semibold">new CustomerService()</span>.
+        Spring injects it via Dependency Injection — making the application more flexible, testable, and decoupled.
+      </p>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">Adding Database Support</h2>
+      <p class="text-gray-300 mb-4">
+        For this example, we’ll use H2 — an in-memory database — so we can focus on the API without installing external software.
+        We will explore solutions with real databases in the next steps.
+      </p>
+      <p class="text-gray-300 mb-4">
+        We first need to add the H2 dependency in our <span class="font-semibold">pom.xml</span>:
+      </p>
+      <div class="bg-gray-950 border border-gray-800 rounded-xl p-4 overflow-x-auto">
+        <pre class="text-sm font-mono leading-relaxed"><code class="language-xml">&lt;dependency&gt;
+  &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+  &lt;artifactId&gt;spring-boot-starter-data-jpa&lt;/artifactId&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+  &lt;groupId&gt;com.h2database&lt;/groupId&gt;
+  &lt;artifactId&gt;h2&lt;/artifactId&gt;
+  &lt;scope&gt;runtime&lt;/scope&gt;
+&lt;/dependency&gt;</code></pre>
+      </div>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">Configuring H2 Database</h2>
+      <p class="text-gray-300 mb-4">
+        Now we need to tell our application that we are using H2 as our database and provide our credentials.
+        Here we are using the default configuration.
+      </p>
+      <p class="text-gray-300 mb-4">
+        Follow the example below in your <span class="font-semibold">src/main/resources/application.properties</span>:
+      </p>
+      <div class="bg-gray-950 border border-gray-800 rounded-xl p-4 overflow-x-auto">
+        <pre class="text-sm font-mono leading-relaxed"><code class="language-properties">spring.datasource.url=jdbc:h2:mem:finbankdb
+spring.datasource.driverClassName=org.h2.Driver
+spring.datasource.username=sa
+spring.datasource.password=
+spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
+spring.jpa.hibernate.ddl-auto=update
+spring.h2.console.enabled=true</code></pre>
+      </div>
+      <p class="text-sm text-gray-400 mt-4">
+        You can access the H2 console at <span class="font-semibold">http://localhost:8080/h2-console</span>.
+      </p>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">Creating the Customer Entity</h2>
+      <p class="text-gray-300 mb-4">
+        To start the implementation, we need to define what a Customer is in our database.
+        For that, we will create the Customer entity.
+      </p>
+      <p class="text-gray-300 mb-4">
+        We will use <span class="font-semibold">@Id</span> to identify the ID property of our database,
+        and <span class="font-semibold">@GeneratedValue</span> says that its value will be generated automatically.
+      </p>
+      <div class="bg-gray-950 border border-gray-800 rounded-xl p-4 overflow-x-auto">
+        <pre class="text-sm font-mono leading-relaxed"><code class="language-java">package com.finbank.model;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
+public class Customer {
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
+  private String name;
+  private String email;
+
+  public Customer() {}
+
+  public Customer(String name, String email) {
+    this.name = name;
+    this.email = email;
+  }
+
+  // getters and setters
+}</code></pre>
+      </div>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">Creating the Repository</h2>
+      <p class="text-gray-300 mb-4">
+        Now that we know what a Customer is (Entity), we can define how to save, update, and query it.
+      </p>
+      <p class="text-gray-300 mb-4">
+        The Repository is a Spring Bean responsible for database operations.
+        Spring Data JPA provides <span class="font-semibold">JpaRepository</span>, which gives us CRUD methods out of the box.
+      </p>
+      <div class="bg-gray-950 border border-gray-800 rounded-xl p-4 overflow-x-auto">
+        <pre class="text-sm font-mono leading-relaxed"><code class="language-java">package com.finbank.repository;
+
+import com.finbank.model.Customer;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface CustomerRepository extends JpaRepository&lt;Customer, Long&gt; {
+}</code></pre>
+      </div>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">Creating the Service Layer</h2>
+      <p class="text-gray-300 mb-4">
+        The Service layer is where business rules live. This is where we decide how things happen before exposing them to the outside world.
+        In FinBank, this might be where we validate email formats or prevent duplicate accounts.
+      </p>
+      <div class="bg-gray-950 border border-gray-800 rounded-xl p-4 overflow-x-auto">
+        <pre class="text-sm font-mono leading-relaxed"><code class="language-java">package com.finbank.service;
+
+import com.finbank.model.Customer;
+import com.finbank.repository.CustomerRepository;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class CustomerService {
+
+  private final CustomerRepository repository;
+
+  public CustomerService(CustomerRepository repository) {
+    this.repository = repository;
+  }
+
+  public List&lt;Customer&gt; findAll() {
+    return repository.findAll();
+  }
+
+  public Customer findById(Long id) {
+    return repository.findById(id)
+        .orElseThrow(() -&gt; new RuntimeException("Customer not found"));
+  }
+
+  public Customer save(Customer customer) {
+    return repository.save(customer);
+  }
+
+  public void delete(Long id) {
+    repository.deleteById(id);
+  }
+}</code></pre>
+      </div>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">Creating the Controller</h2>
+      <p class="text-gray-300 mb-4">
+        The Controller is where HTTP requests are handled. It’s the “face” of your API.
+        Only after defining the data model, database access, and business logic can we safely open it up to API clients.
+      </p>
+      <div class="bg-gray-950 border border-gray-800 rounded-xl p-4 overflow-x-auto">
+        <pre class="text-sm font-mono leading-relaxed"><code class="language-java">package com.finbank.controller;
+
+import com.finbank.model.Customer;
+import com.finbank.service.CustomerService;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/customers")
+public class CustomerController {
+
+  private final CustomerService service;
+
+  public CustomerController(CustomerService service) {
+    this.service = service;
+  }
+
+  @GetMapping
+  public List&lt;Customer&gt; getAllCustomers() {
+    return service.findAll();
+  }
+
+  @GetMapping("/{id}")
+  public Customer getCustomer(@PathVariable Long id) {
+    return service.findById(id);
+  }
+
+  @PostMapping
+  public Customer createCustomer(@RequestBody Customer customer) {
+    return service.save(customer);
+  }
+
+  @PutMapping("/{id}")
+  public Customer updateCustomer(@PathVariable Long id, @RequestBody Customer customer) {
+    Customer existing = service.findById(id);
+    existing.setName(customer.getName());
+    existing.setEmail(customer.getEmail());
+    return service.save(existing);
+  }
+
+  @DeleteMapping("/{id}")
+  public void deleteCustomer(@PathVariable Long id) {
+    service.delete(id);
+  }
+}</code></pre>
+      </div>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">Running the Application</h2>
+      <p class="text-gray-300 mb-4">
+        Once you’ve created your Spring Boot project and added the files above, it’s time to run FinBank.
+      </p>
+      <ol class="list-decimal list-inside text-gray-300 space-y-2">
+        <li>Open the project in your IDE.</li>
+        <li>Locate the main application class — it’s the one with <span class="font-semibold">@SpringBootApplication</span> and the <span class="font-semibold">main</span> method.</li>
+        <li>Click Run in your IDE (often a green triangle button).</li>
+      </ol>
+      <p class="text-gray-300 mt-4 mb-2">You should see something like:</p>
+      <div class="bg-gray-950 border border-gray-800 rounded-xl p-4 overflow-x-auto">
+        <pre class="text-sm font-mono leading-relaxed"><code class="language-text">Tomcat started on port(s): 8080 (http) with context path ''
+Started FinBankApplication in 3.456 seconds</code></pre>
+      </div>
+      <p class="text-sm text-gray-400 mt-4">
+        Spring Boot apps run by default on <span class="font-semibold">http://localhost:8080</span>.
+      </p>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">Testing the API with Postman</h2>
+      <p class="text-gray-300 mb-4">
+        Now let’s test our Customer CRUD endpoints.
+      </p>
+
+      <p class="font-semibold mb-2 text-gray-200">Create a customer:</p>
+      <div class="bg-gray-950 border border-gray-800 rounded-xl p-4 overflow-x-auto">
+        <pre class="text-sm font-mono leading-relaxed"><code class="language-text">POST /api/customers
+Content-Type: application/json
+
+{
+  "name": "Alice Johnson",
+  "email": "alice@finbank.com"
+}</code></pre>
+      </div>
+
+      <p class="font-semibold mt-5 mb-2 text-gray-200">Retrieve customers:</p>
+      <div class="bg-gray-950 border border-gray-800 rounded-xl p-4 overflow-x-auto">
+        <pre class="text-sm font-mono leading-relaxed"><code class="language-text">GET /api/customers</code></pre>
+      </div>
+
+      <p class="font-semibold mt-5 mb-2 text-gray-200">Update a customer:</p>
+      <div class="bg-gray-950 border border-gray-800 rounded-xl p-4 overflow-x-auto">
+        <pre class="text-sm font-mono leading-relaxed"><code class="language-text">PUT /api/customers/1
+Content-Type: application/json
+
+{
+  "name": "Alice J.",
+  "email": "alice.j@finbank.com"
+}</code></pre>
+      </div>
+
+      <p class="font-semibold mt-5 mb-2 text-gray-200">Delete a customer:</p>
+      <div class="bg-gray-950 border border-gray-800 rounded-xl p-4 overflow-x-auto">
+        <pre class="text-sm font-mono leading-relaxed"><code class="language-text">DELETE /api/customers/1</code></pre>
+      </div>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">Next Steps</h2>
+      <p class="text-gray-300 mb-6">
+        Next, we’ll connect FinBank to a real relational database like MySQL or PostgreSQL for persistent data storage.
+        Thank you, and see you in the next post!
+      </p>
+      <div class="text-center">
+        <a href="course-rest-apis-java-spring-part-8.html" class="btn-primary px-6 py-3 text-white rounded-xl font-semibold">
+          Continue to Part 8 →
+        </a>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="text-center py-10 border-t border-gray-800 text-gray-500 text-sm">
+  <p data-i18n="footer">© 2026 Code Sorcery Academy — Forged in Canada 🇨🇦</p>
+</footer>
+
+<script src="script.js"></script>
+
+</body>
+</html>

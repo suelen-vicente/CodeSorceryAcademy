@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Part 4: Error handling and validation for APIs — custom exceptions, global handling in Spring Boot, and Bean Validation." />
+  <meta name="keywords" content="exceptions, custom exceptions, ControllerAdvice, global exception handling, Bean Validation, Spring Boot, API errors, security" />
+  <title>Part 4 — Error Handling & Validation | Code Sorcery Academy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-950 text-gray-100">
+
+<header class="flex justify-between items-center px-6 py-4 border-b border-gray-800 sticky top-0 bg-gray-950/80 backdrop-blur">
+  <a href="index.html" class="text-xl font-bold" data-i18n="brand">Code Sorcery Academy</a>
+  <nav class="space-x-6 text-sm flex items-center">
+    <a href="index.html" class="hover:text-indigo-400" data-i18n="nav_home">Home</a>
+    <a href="portfolio.html" class="hover:text-indigo-400" data-i18n="nav_portfolio">Portfolio</a>
+    <a href="tutorials.html" class="text-indigo-400" data-i18n="nav_tutorials">Tutorials</a>
+    <a href="blog.html" class="hover:text-indigo-400" data-i18n="nav_blog">Blog</a>
+    <button id="lang-toggle" class="ml-4 rounded font-semibold">🇧🇷</button>
+  </nav>
+</header>
+
+<section class="text-center py-14 px-6 hero-animation">
+  <p class="text-indigo-400 text-sm tracking-widest uppercase mb-3">Part 4</p>
+  <h1 class="text-4xl md:text-5xl font-bold mb-4">Error Handling & Validation</h1>
+  <p class="text-gray-400 max-w-3xl mx-auto text-lg">
+    When building APIs, it’s critical to handle errors gracefully and validate all incoming data.
+    Poor error handling can lead to confusing API responses and security issues.
+  </p>
+  <div class="mt-8 flex items-center justify-center gap-3">
+    <a href="course-rest-apis-java-spring-part-3.html" class="px-5 py-3 border border-gray-800 rounded-xl hover:border-indigo-500 hover:bg-indigo-500/10 hover:text-indigo-300">
+      ← Part 3
+    </a>
+    <a href="course-rest-apis-java-spring-part-5.html" class="btn-primary px-5 py-3 text-white rounded-xl font-semibold">
+      Next: REST Principles →
+    </a>
+  </div>
+</section>
+
+<main class="px-6 pb-20">
+  <div class="max-w-4xl mx-auto space-y-10">
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">In This Lesson, We’ll Cover</h2>
+      <ul class="list-disc list-inside text-gray-300 space-y-1">
+        <li>Exception handling in Java</li>
+        <li>Creating custom exceptions for API use</li>
+        <li>Using Spring Boot’s global exception handling</li>
+        <li>Validating request data with Bean Validation</li>
+      </ul>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">API Errors: What Clients Should See</h2>
+      <p class="text-gray-300 mb-4">
+        In an API, a bad request shouldn’t cause the application to crash or return raw Java stack traces.
+        Instead, we return a clear, client-friendly JSON error.
+      </p>
+      <p class="font-semibold mb-2 text-gray-200">Example of a bad practice (stack trace to client):</p>
+      <div class="bg-gray-950 border border-gray-800 rounded-xl p-4 overflow-x-auto">
+        <pre class="text-sm font-mono leading-relaxed"><code class="language-json">{
+  "error": "NullPointerException at TransactionService.java:42"
+}</code></pre>
+      </div>
+      <p class="font-semibold mt-5 mb-2 text-gray-200">Example of a good practice:</p>
+      <div class="bg-gray-950 border border-gray-800 rounded-xl p-4 overflow-x-auto">
+        <pre class="text-sm font-mono leading-relaxed"><code class="language-json">{
+  "status": "error",
+  "message": "Account not found",
+  "errorCode": 404
+}</code></pre>
+      </div>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">Exception Handling in Java</h2>
+      <p class="text-gray-300 mb-4">
+        Java uses the <span class="font-semibold">try</span>, <span class="font-semibold">catch</span>, and <span class="font-semibold">finally</span> keywords for handling exceptions.
+      </p>
+      <p class="font-semibold mb-2 text-gray-200">Example – Catching an exception when transferring funds:</p>
+      <div class="bg-gray-950 border border-gray-800 rounded-xl p-4 overflow-x-auto">
+        <pre class="text-sm font-mono leading-relaxed"><code class="language-java">public void transferFunds(String fromAccount, String toAccount, double amount) {
+  try {
+    // Attempt transfer
+    processTransfer(fromAccount, toAccount, amount);
+  } catch (InsufficientFundsException e) {
+    System.out.println("Error: " + e.getMessage());
+  } finally {
+    System.out.println("Transaction log updated");
+  }
+}</code></pre>
+      </div>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">Creating Custom Exceptions</h2>
+      <p class="text-gray-300 mb-4">
+        Custom exceptions make API responses more meaningful.
+      </p>
+      <div class="bg-gray-950 border border-gray-800 rounded-xl p-4 overflow-x-auto">
+        <pre class="text-sm font-mono leading-relaxed"><code class="language-java">public class AccountNotFoundException extends RuntimeException {
+  public AccountNotFoundException(String accountNumber) {
+    super("Account not found: " + accountNumber);
+  }
+}</code></pre>
+      </div>
+      <p class="font-semibold mt-5 mb-2 text-gray-200">Usage in a service:</p>
+      <div class="bg-gray-950 border border-gray-800 rounded-xl p-4 overflow-x-auto">
+        <pre class="text-sm font-mono leading-relaxed"><code class="language-java">public Account getAccount(String accountNumber) {
+  return accountRepository.findById(accountNumber)
+      .orElseThrow(() -> new AccountNotFoundException(accountNumber));
+}</code></pre>
+      </div>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">Global Exception Handling in Spring Boot</h2>
+      <p class="text-gray-300 mb-4">
+        Instead of handling exceptions in every controller, we can use <span class="font-semibold">@ControllerAdvice</span> to centralize them.
+      </p>
+      <div class="bg-gray-950 border border-gray-800 rounded-xl p-4 overflow-x-auto">
+        <pre class="text-sm font-mono leading-relaxed"><code class="language-java">import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+
+@ControllerAdvice
+public class ApiExceptionHandler {
+
+  @ExceptionHandler(AccountNotFoundException.class)
+  public ResponseEntity&lt;ErrorResponse&gt; handleAccountNotFound(AccountNotFoundException ex) {
+    ErrorResponse error = new ErrorResponse("error", ex.getMessage(), 404);
+    return new ResponseEntity&lt;&gt;(error, HttpStatus.NOT_FOUND);
+  }
+}</code></pre>
+      </div>
+
+      <p class="font-semibold mt-5 mb-2 text-gray-200">ErrorResponse DTO:</p>
+      <div class="bg-gray-950 border border-gray-800 rounded-xl p-4 overflow-x-auto">
+        <pre class="text-sm font-mono leading-relaxed"><code class="language-java">public class ErrorResponse {
+  private String status;
+  private String message;
+  private int errorCode;
+
+  public ErrorResponse(String status, String message, int errorCode) {
+    this.status = status;
+    this.message = message;
+    this.errorCode = errorCode;
+  }
+}</code></pre>
+      </div>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">Input Validation with Bean Validation</h2>
+      <p class="text-gray-300 mb-4">
+        Spring Boot integrates Bean Validation to automatically check incoming request data.
+      </p>
+      <p class="font-semibold mb-2 text-gray-200">Example – DTO with validation:</p>
+      <div class="bg-gray-950 border border-gray-800 rounded-xl p-4 overflow-x-auto">
+        <pre class="text-sm font-mono leading-relaxed"><code class="language-java">import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+
+public class TransferRequest {
+  @NotBlank(message = "From account is required")
+  private String fromAccount;
+
+  @NotBlank(message = "To account is required")
+  private String toAccount;
+
+  @Min(value = 1, message = "Amount must be greater than zero")
+  private double amount;
+
+  // getters and setters
+}</code></pre>
+      </div>
+
+      <p class="font-semibold mt-5 mb-2 text-gray-200">Controller method:</p>
+      <div class="bg-gray-950 border border-gray-800 rounded-xl p-4 overflow-x-auto">
+        <pre class="text-sm font-mono leading-relaxed"><code class="language-java">import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api/transfers")
+public class TransferController {
+
+  @PostMapping
+  public String transfer(@Validated @RequestBody TransferRequest request) {
+    // process transfer
+    return "Transfer successful";
+  }
+}</code></pre>
+      </div>
+      <p class="text-sm text-gray-400 mt-4">
+        If a request fails validation, Spring automatically returns a 400 Bad Request with details.
+      </p>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">Next Steps</h2>
+      <p class="text-gray-300 mb-6">
+        Next, we’ll explore the core principles of REST and how to structure endpoints in our APIs.
+        Thank you, and see you next post!
+      </p>
+      <div class="text-center">
+        <a href="course-rest-apis-java-spring-part-5.html" class="btn-primary px-6 py-3 text-white rounded-xl font-semibold">
+          Continue to Part 5 →
+        </a>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="text-center py-10 border-t border-gray-800 text-gray-500 text-sm">
+  <p data-i18n="footer">© 2026 Code Sorcery Academy — Forged in Canada 🇨🇦</p>
+</footer>
+
+<script src="script.js"></script>
+
+</body>
+</html>

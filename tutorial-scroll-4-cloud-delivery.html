@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Pergaminho IV (Cloud & Entrega): Docker, CI/CD, ambientes e estratégias de deploy para APIs Java/Spring Boot." />
+  <meta name="keywords" content="Docker, CI/CD, deploy, Spring Boot, cloud, observabilidade, configuração, secrets, ambientes" />
+  <title>Pergaminho IV — Cloud & Entrega | Code Sorcery Academy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-950 text-gray-100">
+
+<header class="flex justify-between items-center px-6 py-4 border-b border-gray-800 sticky top-0 bg-gray-950/80 backdrop-blur">
+  <a href="index.html" class="text-xl font-bold" data-i18n="brand">Code Sorcery Academy</a>
+  <nav class="space-x-6 text-sm flex items-center">
+    <a href="index.html" class="hover:text-indigo-400" data-i18n="nav_home">Home</a>
+    <a href="portfolio.html" class="hover:text-indigo-400" data-i18n="nav_portfolio">Portfolio</a>
+    <a href="tutorials.html" class="text-indigo-400" data-i18n="nav_tutorials">Tutorials</a>
+    <a href="blog.html" class="hover:text-indigo-400" data-i18n="nav_blog">Blog</a>
+    <button id="lang-toggle" class="ml-4 rounded font-semibold">🇧🇷</button>
+  </nav>
+</header>
+
+<section class="text-center py-16 px-6 hero-animation">
+  <p class="text-indigo-400 text-sm tracking-widest uppercase mb-3">Pergaminho IV</p>
+  <h1 class="text-4xl md:text-5xl font-bold mb-4">Cloud & Entrega: rituais de deploy sem medo</h1>
+  <p class="text-gray-400 max-w-3xl mx-auto text-lg">
+    O código não vale nada até rodar com segurança em produção. Aqui você aprende a transformar API em serviço:
+    build reprodutível, configuração correta, deploy previsível e rollback rápido.
+  </p>
+  <div class="mt-8 flex items-center justify-center gap-3">
+    <a href="tutorial-scroll-3-data-oracle.html" class="px-5 py-3 border border-gray-800 rounded-xl hover:border-indigo-500 hover:bg-indigo-500/10 hover:text-indigo-300">
+      ← Pergaminho III
+    </a>
+    <a href="tutorial-scroll-5-scale-reliability.html" class="btn-primary px-5 py-3 text-white rounded-xl font-semibold">
+      Próximo: Escala & Confiabilidade →
+    </a>
+  </div>
+</section>
+
+<main class="px-6 pb-20">
+  <div class="max-w-4xl mx-auto space-y-10">
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">O que muda quando você “vira produção”</h2>
+      <div class="grid md:grid-cols-2 gap-4 text-gray-300">
+        <div class="bg-gray-950/40 border border-gray-800 rounded-xl p-4">
+          <p class="font-semibold mb-1">Reprodutibilidade</p>
+          <p class="text-sm text-gray-400">Mesma build, mesmo artefato, mesmo resultado. “Na minha máquina” não entra.</p>
+        </div>
+        <div class="bg-gray-950/40 border border-gray-800 rounded-xl p-4">
+          <p class="font-semibold mb-1">Configuração como contrato</p>
+          <p class="text-sm text-gray-400">Ambientes, secrets, flags, timeouts. Config errado é bug de produção.</p>
+        </div>
+        <div class="bg-gray-950/40 border border-gray-800 rounded-xl p-4">
+          <p class="font-semibold mb-1">Observabilidade</p>
+          <p class="text-sm text-gray-400">Logs, métricas e traces. Se você não mede, você não controla.</p>
+        </div>
+        <div class="bg-gray-950/40 border border-gray-800 rounded-xl p-4">
+          <p class="font-semibold mb-1">Rollback e segurança</p>
+          <p class="text-sm text-gray-400">Mudanças pequenas, reversíveis e com blast radius reduzido.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">Docker: o círculo de invocação</h2>
+      <p class="text-gray-300 mb-4">
+        Container não é “só empacotar”. É declarar dependências, reduzir superfície e garantir um runtime previsível.
+      </p>
+      <div class="bg-gray-950 border border-gray-800 rounded-xl p-4 overflow-x-auto">
+        <pre class="text-sm font-mono leading-relaxed"><code class="language-dockerfile"># Exemplo didático (multi-stage) para Spring Boot
+FROM eclipse-temurin:21-jdk AS build
+WORKDIR /app
+COPY . .
+RUN ./mvnw -q -DskipTests package
+
+FROM eclipse-temurin:21-jre
+WORKDIR /app
+COPY --from=build /app/target/app.jar /app/app.jar
+EXPOSE 8080
+ENTRYPOINT ["java","-jar","/app/app.jar"]</code></pre>
+      </div>
+      <div class="mt-6 bg-gray-950/40 border border-gray-800 rounded-xl p-4 text-gray-300">
+        <p class="font-semibold mb-1">Review de IA (Dockerfile)</p>
+        <ul class="list-disc list-inside text-sm space-y-1">
+          <li>Evitar rodar como root quando possível.</li>
+          <li>Imagem base consistente (JRE vs JDK) e versão fixa.</li>
+          <li>Build stage separado (reduz tamanho e risco).</li>
+          <li>Não vazar secrets em layers.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">CI/CD: o ritual que protege o time de si mesmo</h2>
+      <p class="text-gray-300 mb-4">
+        Pipeline bom não é o mais complexo. É o que torna o caminho seguro e barato: testes rápidos, build determinístico, deploy previsível.
+      </p>
+      <div class="grid md:grid-cols-3 gap-3 text-gray-300 text-sm">
+        <div class="bg-gray-950/40 border border-gray-800 rounded-xl p-4">
+          <p class="font-semibold mb-1">Gate 1</p>
+          <p class="text-gray-400">Lint/format + unit tests rápidos.</p>
+        </div>
+        <div class="bg-gray-950/40 border border-gray-800 rounded-xl p-4">
+          <p class="font-semibold mb-1">Gate 2</p>
+          <p class="text-gray-400">Build do artefato + testes de integração essenciais.</p>
+        </div>
+        <div class="bg-gray-950/40 border border-gray-800 rounded-xl p-4">
+          <p class="font-semibold mb-1">Gate 3</p>
+          <p class="text-gray-400">Deploy com estratégia (blue/green/canary) + smoke checks.</p>
+        </div>
+      </div>
+      <div class="mt-6 bg-indigo-500/10 border border-indigo-500/30 rounded-xl p-4 text-gray-200">
+        <p class="font-semibold mb-1">Pergunta de senior</p>
+        <p class="text-sm text-gray-300">
+          “O que impede um deploy ruim de chegar em produção?” Se a resposta for “esperança”, você está devendo rituais.
+        </p>
+      </div>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">Configuração e secrets: o grimório invisível</h2>
+      <p class="text-gray-300 mb-4">
+        A mesma aplicação roda em dev/staging/prod. O que muda é configuração. Faça isso explícito e auditável.
+      </p>
+      <div class="bg-gray-950/40 border border-gray-800 rounded-xl p-4 text-gray-300">
+        <ul class="list-disc list-inside text-sm space-y-1">
+          <li>Use profiles com propósito (ex.: <span class="font-semibold">local</span>, <span class="font-semibold">staging</span>, <span class="font-semibold">prod</span>).</li>
+          <li>Timeouts e retries configuráveis por ambiente.</li>
+          <li>Secrets fora do repo (vault/secret manager), com rotação.</li>
+          <li>Feature flags com owner e data de expiração (flag sem dono vira dívida).</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">Quest: deploy com rollback em 20 minutos</h2>
+      <ol class="list-decimal list-inside text-gray-300 space-y-2">
+        <li>Escolha um serviço Spring Boot simples (ou crie um hello API).</li>
+        <li>Crie um Dockerfile multi-stage e faça build local.</li>
+        <li>Defina 3 configs por ambiente (ex.: log level, timeout, feature flag).</li>
+        <li>Simule um deploy com duas versões e uma “chave de rollback” (tag/versão).</li>
+        <li>Peça para a IA sugerir melhorias no pipeline e faça review com foco em segurança e reprodutibilidade.</li>
+      </ol>
+    </section>
+
+    <section class="text-center text-gray-400">
+      <p class="mb-4">Último pergaminho: confiabilidade. O lugar onde sistemas deixam de ser “funciona” e viram “aguenta”.</p>
+      <a href="tutorial-scroll-5-scale-reliability.html" class="btn-primary px-6 py-3 text-white rounded-xl font-semibold">
+        Ir para Pergaminho V →
+      </a>
+    </section>
+
+  </div>
+</main>
+
+<footer class="text-center py-10 border-t border-gray-800 text-gray-500 text-sm">
+  <p data-i18n="footer">© 2026 Code Sorcery Academy — Forged in Canada 🇨🇦</p>
+</footer>
+
+<script src="script.js"></script>
+
+</body>
+</html>

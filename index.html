@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Code Sorcery Academy: learn backend with AI as a tool and fundamentals as your foundation. Build systems thinking, review AI code with confidence, and level up your career." />
+  <meta name="keywords" content="backend, Java, Spring Boot, systems thinking, AI for developers, software engineering, tutorials" />
+  <title>Code Sorcery Academy — AI + Fundamentals for Backend Devs</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-950 text-gray-100">
+
+<header class="flex justify-between items-center px-6 py-4 border-b border-gray-800 sticky top-0 bg-gray-950/80 backdrop-blur">
+    <h1 class="text-xl font-bold" data-i18n="brand">Code Sorcery Academy</h1>
+  <nav class="space-x-6 text-sm flex items-center">
+    <a href="index.html" class="hover:text-indigo-400" data-i18n="nav_home">Home</a>
+    <a href="portfolio.html" class="hover:text-indigo-400" data-i18n="nav_portfolio">Portfolio</a>
+    <a href="tutorials.html" class="hover:text-indigo-400" data-i18n="nav_tutorials">Tutorials</a>
+    <a href="blog.html" class="hover:text-indigo-400" data-i18n="nav_blog">Blog</a>
+    <button id="lang-toggle" class="ml-4 rounded font-semibold">🇧🇷</button>
+  </nav>
+</header>
+
+<section class="text-center py-24 px-6 hero-animation">
+  <h2 class="text-4xl md:text-6xl font-bold mb-6" data-i18n="home_hero_title">Code like a mage — with AI, not magic tricks.</h2>
+  <p class="text-gray-400 max-w-2xl mx-auto text-lg" data-i18n="home_hero_desc">
+    AI can speed up your first steps. Fundamentals and systems thinking are what make you competent: you understand how things connect, you can question AI output, and you can level up your career.
+  </p>
+
+  <div class="mt-8 space-x-4">
+    <a href="tutorials.html" class="btn-primary px-6 py-3 text-white rounded-xl font-semibold" data-i18n="home_cta_primary">Explore the Path</a>
+    <a href="#contact" class="px-6 py-3 border border-gray-700 rounded-xl hover:border-indigo-500 hover:bg-indigo-500/10 hover:text-indigo-400" data-i18n="home_cta_secondary">Get In Touch</a>
+  </div>
+</section>
+
+<section class="px-6 py-20 border-t border-gray-800">
+  <div class="max-w-4xl mx-auto text-center">
+    <h3 class="text-3xl font-bold mb-6" data-i18n="home_why_title">The Wand and the Grimoire</h3>
+    <p class="text-gray-400 text-lg leading-relaxed" data-i18n="home_why_desc">
+      AI is a powerful wand. But the grimoire is still yours: how HTTP, databases, queues, caches, and deployment fit together. That’s what turns copy‑paste into engineering.
+    </p>
+  </div>
+</section>
+
+<section class="px-6 py-20 bg-gray-900/50">
+  <h3 class="text-3xl font-bold mb-10 text-center" data-i18n="home_pillars_title">The Four Pillars</h3>
+
+  <div class="grid md:grid-cols-4 gap-6 max-w-6xl mx-auto">
+    <div class="skill-card p-6 bg-gray-800 rounded-xl text-center">
+      <i class="fas fa-hat-wizard text-4xl text-indigo-400 mb-4"></i>
+      <h4 class="font-bold mb-2" data-i18n="home_pillar_1_title">AI as an Apprentice</h4>
+      <p class="text-gray-400 text-sm" data-i18n="home_pillar_1_desc">Use AI to draft, explore, and accelerate — then review with intent, tests, and constraints.</p>
+    </div>
+
+    <div class="skill-card p-6 bg-gray-800 rounded-xl text-center">
+      <i class="fas fa-book-open text-4xl text-amber-400 mb-4"></i>
+      <h4 class="font-bold mb-2" data-i18n="home_pillar_2_title">Know the Mechanics</h4>
+      <p class="text-gray-400 text-sm" data-i18n="home_pillar_2_desc">Data flows, boundaries, failures, trade-offs. You can’t debug what you don’t understand.</p>
+    </div>
+
+    <div class="skill-card p-6 bg-gray-800 rounded-xl text-center">
+      <i class="fas fa-sitemap text-4xl text-emerald-400 mb-4"></i>
+      <h4 class="font-bold mb-2" data-i18n="home_pillar_3_title">Connect the System</h4>
+      <p class="text-gray-400 text-sm" data-i18n="home_pillar_3_desc">Architecture is the map. You learn where each piece belongs and why.</p>
+    </div>
+
+    <div class="skill-card p-6 bg-gray-800 rounded-xl text-center">
+      <i class="fas fa-compass text-4xl text-rose-400 mb-4"></i>
+      <h4 class="font-bold mb-2" data-i18n="home_pillar_4_title">Career Leverage</h4>
+      <p class="text-gray-400 text-sm" data-i18n="home_pillar_4_desc">When you can question the output, you can improve it — and lead the direction.</p>
+    </div>
+  </div>
+
+  <p class="text-gray-400 max-w-4xl mx-auto text-center text-lg leading-relaxed mt-10" data-i18n="home_pillars_desc">
+    Speed is useful. Power comes from fundamentals — and from seeing the system as a connected whole.
+  </p>
+</section>
+
+<section class="px-6 py-20 border-t border-gray-800">
+  <h3 class="text-3xl font-bold mb-10 text-center" data-i18n="home_path_title">Your Learning Path</h3>
+
+  <p class="text-gray-400 max-w-4xl mx-auto text-center text-lg leading-relaxed mb-10" data-i18n="home_path_desc">
+    A sequence of scrolls focused on building real backend intuition — with AI as support, not a crutch.
+  </p>
+
+  <div class="grid md:grid-cols-2 gap-6 max-w-6xl mx-auto">
+    <div class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 hover:border-indigo-500">
+      <h4 class="font-bold text-lg mb-2" data-i18n="home_path_1_title">Scroll I — Foundations</h4>
+      <p class="text-gray-400 text-sm mb-4" data-i18n="home_path_1_desc">Language, OOP, data structures, and debugging habits.</p>
+      <span class="text-xs text-indigo-400">OOP • Collections • Debug</span>
+    </div>
+
+    <div class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 hover:border-indigo-500">
+      <h4 class="font-bold text-lg mb-2" data-i18n="home_path_2_title">Scroll II — APIs & Web</h4>
+      <p class="text-gray-400 text-sm mb-4" data-i18n="home_path_2_desc">HTTP, REST, auth, validation, and error handling.</p>
+      <span class="text-xs text-indigo-400">HTTP • Auth • Errors</span>
+    </div>
+
+    <div class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 hover:border-indigo-500">
+      <h4 class="font-bold text-lg mb-2" data-i18n="home_path_3_title">Scroll III — Data & Persistence</h4>
+      <p class="text-gray-400 text-sm mb-4" data-i18n="home_path_3_desc">SQL, modeling, JPA, performance, and migrations.</p>
+      <span class="text-xs text-indigo-400">SQL • Modeling • JPA</span>
+    </div>
+
+    <div class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 hover:border-indigo-500">
+      <h4 class="font-bold text-lg mb-2" data-i18n="home_path_4_title">Scroll IV — Cloud & Delivery</h4>
+      <p class="text-gray-400 text-sm mb-4" data-i18n="home_path_4_desc">Docker, CI/CD, deployment, and environment strategy.</p>
+      <span class="text-xs text-indigo-400">Docker • CI/CD • Deploy</span>
+    </div>
+
+    <div class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 hover:border-indigo-500 md:col-span-2">
+      <h4 class="font-bold text-lg mb-2" data-i18n="home_path_5_title">Scroll V — Scale & Reliability</h4>
+      <p class="text-gray-400 text-sm mb-4" data-i18n="home_path_5_desc">Caching, async, observability, and resilience patterns.</p>
+      <span class="text-xs text-indigo-400">Caching • Async • Observability</span>
+    </div>
+  </div>
+
+  <div class="text-center mt-8">
+    <a href="tutorials.html" class="btn-primary px-6 py-3 text-white rounded-xl font-semibold" data-i18n="home_path_cta">Open the Scrolls</a>
+  </div>
+</section>
+
+<section class="px-6 py-20 bg-gray-900/50 border-t border-gray-800">
+  <div class="max-w-4xl mx-auto text-center">
+    <h3 class="text-3xl font-bold mb-6" data-i18n="home_about_title">How I Teach</h3>
+    <p class="text-gray-400 text-lg leading-relaxed" data-i18n="home_about_desc">
+      Clear mental models, practical projects, and the habit of explaining “why”. AI is part of the workflow — but you stay in control, from requirements to trade-offs.
+    </p>
+  </div>
+</section>
+
+<section id="contact" class="px-6 py-20 bg-gray-900/50">
+  <h3 class="text-3xl font-bold mb-10 text-center" data-i18n="contact_title">Get In Touch</h3>
+
+  <div class="max-w-2xl mx-auto text-center">
+    <p class="text-gray-400 mb-6" data-i18n="contact_desc">Want to collaborate, get feedback, or talk backend? Send a message.</p>
+
+    <div class="flex justify-center space-x-6">
+      <a href="mailto:your.email@example.com" class="text-gray-400 hover:text-indigo-400 transition-colors">
+        <i class="fas fa-envelope text-2xl"></i>
+      </a>
+      <a href="https://github.com/yourusername" target="_blank" class="text-gray-400 hover:text-indigo-400 transition-colors">
+        <i class="fab fa-github text-2xl"></i>
+      </a>
+      <a href="https://linkedin.com/in/yourprofile" target="_blank" class="text-gray-400 hover:text-indigo-400 transition-colors">
+        <i class="fab fa-linkedin text-2xl"></i>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer class="text-center py-10 border-t border-gray-800 text-gray-500 text-sm">
+  <p data-i18n="footer">© 2026 Code Sorcery Academy — Forged in Canada 🇨🇦</p>
+</footer>
+
+<script src="script.js"></script>
+
+</body>
+</html>

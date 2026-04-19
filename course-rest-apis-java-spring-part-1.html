@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Part 1: Introduction & Setup for Building RESTful APIs with Java and Spring Boot." />
+  <meta name="keywords" content="JDK, Git, Maven, IDE, Lombok, JUnit, setup, Java, Spring Boot" />
+  <title>Part 1 — Introduction & Setup | Code Sorcery Academy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-950 text-gray-100">
+
+<header class="flex justify-between items-center px-6 py-4 border-b border-gray-800 sticky top-0 bg-gray-950/80 backdrop-blur">
+  <a href="index.html" class="text-xl font-bold" data-i18n="brand">Code Sorcery Academy</a>
+  <nav class="space-x-6 text-sm flex items-center">
+    <a href="index.html" class="hover:text-indigo-400" data-i18n="nav_home">Home</a>
+    <a href="portfolio.html" class="hover:text-indigo-400" data-i18n="nav_portfolio">Portfolio</a>
+    <a href="tutorials.html" class="text-indigo-400" data-i18n="nav_tutorials">Tutorials</a>
+    <a href="blog.html" class="hover:text-indigo-400" data-i18n="nav_blog">Blog</a>
+    <button id="lang-toggle" class="ml-4 rounded font-semibold">🇧🇷</button>
+  </nav>
+</header>
+
+<section class="text-center py-14 px-6 hero-animation">
+  <p class="text-indigo-400 text-sm tracking-widest uppercase mb-3">Part 1</p>
+  <h1 class="text-4xl md:text-5xl font-bold mb-4">Introduction & Setup</h1>
+  <p class="text-gray-400 max-w-3xl mx-auto text-lg">
+    Welcome to the Building RESTful APIs with Java and Spring Boot series.
+    In this first lesson, we’ll set up your development environment, install the required tools, and learn Git fundamentals.
+  </p>
+  <div class="mt-8 flex items-center justify-center gap-3">
+    <a href="course-rest-apis-java-spring.html" class="px-5 py-3 border border-gray-800 rounded-xl hover:border-indigo-500 hover:bg-indigo-500/10 hover:text-indigo-300">
+      ← Course Timeline
+    </a>
+    <a href="course-rest-apis-java-spring-part-2.html" class="btn-primary px-5 py-3 text-white rounded-xl font-semibold">
+      Next: Java Essentials →
+    </a>
+  </div>
+</section>
+
+<main class="px-6 pb-20">
+  <div class="max-w-4xl mx-auto space-y-10">
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">What You’ll Need</h2>
+      <p class="text-gray-300 mb-4">
+        Before we dive into coding, let’s make sure you have everything ready. Don’t worry: you don’t need to download random jars manually.
+        We’ll manage dependencies with Maven.
+      </p>
+      <div class="space-y-4 text-gray-300">
+        <div class="bg-gray-950/40 border border-gray-800 rounded-xl p-4">
+          <p class="font-semibold mb-1">Java Development Kit (JDK)</p>
+          <p class="text-sm text-gray-400">Install a modern JDK (17+ recommended; 21 is great). Verify with <span class="font-semibold">java -version</span>.</p>
+        </div>
+        <div class="bg-gray-950/40 border border-gray-800 rounded-xl p-4">
+          <p class="font-semibold mb-1">Git</p>
+          <p class="text-sm text-gray-400">Version control tool to track and share your code. Verify with <span class="font-semibold">git --version</span>.</p>
+        </div>
+        <div class="bg-gray-950/40 border border-gray-800 rounded-xl p-4">
+          <p class="font-semibold mb-1">Maven</p>
+          <p class="text-sm text-gray-400">Project management and build automation. Verify with <span class="font-semibold">mvn -v</span>.</p>
+        </div>
+        <div class="bg-gray-950/40 border border-gray-800 rounded-xl p-4">
+          <p class="font-semibold mb-1">An IDE</p>
+          <p class="text-sm text-gray-400">Eclipse (course baseline), IntelliJ IDEA, or VS Code with Java extensions.</p>
+        </div>
+      </div>
+      <div class="mt-6 bg-indigo-500/10 border border-indigo-500/30 rounded-xl p-4 text-gray-200">
+        <p class="font-semibold mb-1">Magician tip</p>
+        <p class="text-sm text-gray-300">
+          Tooling is not “busy work”. It’s the circle of invocation. If your environment is unstable, your learning becomes noise.
+        </p>
+      </div>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">Setting Up Your Development Environment</h2>
+      <div class="space-y-6 text-gray-300">
+        <div class="bg-gray-950/40 border border-gray-800 rounded-xl p-4">
+          <p class="font-semibold mb-2">1) Install your IDE</p>
+          <p class="text-sm text-gray-400">Choose one and stick with it for the course. Consistency beats novelty.</p>
+        </div>
+
+        <div class="bg-gray-950/40 border border-gray-800 rounded-xl p-4">
+          <p class="font-semibold mb-2">2) Verify your JDK</p>
+          <div class="bg-gray-950 border border-gray-800 rounded-xl p-4 overflow-x-auto mt-3">
+            <pre class="text-sm font-mono leading-relaxed"><code class="language-bash">java -version
+javac -version</code></pre>
+          </div>
+          <p class="text-sm text-gray-400 mt-3">
+            If your IDE can’t find the JDK, point it to your JDK installation folder.
+          </p>
+        </div>
+
+        <div class="bg-gray-950/40 border border-gray-800 rounded-xl p-4">
+          <p class="font-semibold mb-2">3) Verify Maven</p>
+          <div class="bg-gray-950 border border-gray-800 rounded-xl p-4 overflow-x-auto mt-3">
+            <pre class="text-sm font-mono leading-relaxed"><code class="language-bash">mvn -v</code></pre>
+          </div>
+          <p class="text-sm text-gray-400 mt-3">
+            Maven will handle Spring Boot, JUnit, Lombok, and everything else through dependencies.
+          </p>
+        </div>
+
+        <div class="bg-gray-950/40 border border-gray-800 rounded-xl p-4">
+          <p class="font-semibold mb-2">4) Lombok (optional, but common)</p>
+          <p class="text-sm text-gray-400">
+            If you use Lombok, install the Lombok plugin for your IDE and enable annotation processing.
+            We’ll use Lombok carefully (as a tool), not as a way to hide bad design.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">Basic Git Workflow</h2>
+      <p class="text-gray-300 mb-4">
+        Git will be your best friend when working on projects, both personal and professional.
+        Here’s the basic cycle:
+      </p>
+      <div class="bg-gray-950 border border-gray-800 rounded-xl p-4 overflow-x-auto">
+        <pre class="text-sm font-mono leading-relaxed"><code class="language-bash"># Stage changes (prepare them for commit)
+git add filename.java
+git add .
+
+# Commit changes (save them locally)
+git commit -m "Meaningful commit message"
+
+# Push changes (upload to remote repository)
+git push origin main
+
+# Pull updates (sync with remote changes)
+git pull origin main</code></pre>
+      </div>
+      <div class="mt-6 bg-gray-950/40 border border-gray-800 rounded-xl p-4 text-gray-300">
+        <p class="font-semibold mb-1">Senior habit</p>
+        <p class="text-sm text-gray-400">
+          Commit small, reviewable diffs. It makes AI-assisted work safer too: you can bisect and rollback with confidence.
+        </p>
+      </div>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">Next Steps</h2>
+      <p class="text-gray-300 mb-4">
+        In the next lesson (Part 2 – Java Essentials), we’ll start exploring:
+      </p>
+      <ul class="list-disc list-inside text-gray-300 space-y-1">
+        <li>Object-Oriented Programming (OOP) concepts in Java</li>
+        <li>Encapsulation, inheritance, composition, and polymorphism</li>
+        <li>Access modifiers and when to use them</li>
+        <li>How these choices affect API code quality</li>
+      </ul>
+      <div class="text-center mt-8">
+        <a href="course-rest-apis-java-spring-part-2.html" class="btn-primary px-6 py-3 text-white rounded-xl font-semibold">
+          Continue to Part 2 →
+        </a>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="text-center py-10 border-t border-gray-800 text-gray-500 text-sm">
+  <p data-i18n="footer">© 2026 Code Sorcery Academy — Forged in Canada 🇨🇦</p>
+</footer>
+
+<script src="script.js"></script>
+
+</body>
+</html>

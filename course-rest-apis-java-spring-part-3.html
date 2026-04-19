@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Part 3: Java Collections Framework for APIs — List, Set, Map, equals/hashCode, iteration, and Streams." />
+  <meta name="keywords" content="Java collections, Collections Framework, List, Set, Map, equals, hashCode, streams, REST API" />
+  <title>Part 3 — Collections & Data Processing | Code Sorcery Academy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-950 text-gray-100">
+
+<header class="flex justify-between items-center px-6 py-4 border-b border-gray-800 sticky top-0 bg-gray-950/80 backdrop-blur">
+  <a href="index.html" class="text-xl font-bold" data-i18n="brand">Code Sorcery Academy</a>
+  <nav class="space-x-6 text-sm flex items-center">
+    <a href="index.html" class="hover:text-indigo-400" data-i18n="nav_home">Home</a>
+    <a href="portfolio.html" class="hover:text-indigo-400" data-i18n="nav_portfolio">Portfolio</a>
+    <a href="tutorials.html" class="text-indigo-400" data-i18n="nav_tutorials">Tutorials</a>
+    <a href="blog.html" class="hover:text-indigo-400" data-i18n="nav_blog">Blog</a>
+    <button id="lang-toggle" class="ml-4 rounded font-semibold">🇧🇷</button>
+  </nav>
+</header>
+
+<section class="text-center py-14 px-6 hero-animation">
+  <p class="text-indigo-400 text-sm tracking-widest uppercase mb-3">Part 3</p>
+  <h1 class="text-4xl md:text-5xl font-bold mb-4">Collections & Data Processing for APIs</h1>
+  <p class="text-gray-400 max-w-3xl mx-auto text-lg">
+    In this lesson, we’ll explore Java’s Collections Framework and how it’s essential for handling data in backend services.
+    In a REST API, collections are everywhere — from processing incoming JSON arrays to building paginated lists for clients.
+  </p>
+  <div class="mt-8 flex items-center justify-center gap-3">
+    <a href="course-rest-apis-java-spring-part-2.html" class="px-5 py-3 border border-gray-800 rounded-xl hover:border-indigo-500 hover:bg-indigo-500/10 hover:text-indigo-300">
+      ← Part 2
+    </a>
+    <a href="course-rest-apis-java-spring-part-4.html" class="btn-primary px-5 py-3 text-white rounded-xl font-semibold">
+      Next: Errors & Validation →
+    </a>
+  </div>
+</section>
+
+<main class="px-6 pb-20">
+  <div class="max-w-4xl mx-auto space-y-10">
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">Introduction to the Collections Framework</h2>
+      <p class="text-gray-300 mb-4">
+        The Collections Framework is a set of classes and interfaces that manage groups of objects.
+        The most common ones for API development are:
+      </p>
+      <ul class="list-disc list-inside text-gray-300 space-y-1">
+        <li><span class="font-semibold">List</span> – Ordered collection, allows duplicates.</li>
+        <li><span class="font-semibold">Set</span> – Unordered collection, no duplicates.</li>
+        <li><span class="font-semibold">Map</span> – Key-value pairs, no duplicate keys.</li>
+      </ul>
+      <div class="mt-6 bg-indigo-500/10 border border-indigo-500/30 rounded-xl p-4 text-gray-200">
+        <p class="font-semibold mb-1">Magician hint</p>
+        <p class="text-sm text-gray-300">
+          Collections are “invisible infrastructure”. If you pick the wrong one, your API might still work — but it will cost performance, clarity, or correctness.
+        </p>
+      </div>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">Lists – Ordered Data</h2>
+      <p class="text-gray-300 mb-4">
+        Lists are perfect when the order matters and duplicates are allowed.
+        In a real-world API, we might use a List to store a customer’s transaction history.
+      </p>
+      <div class="bg-gray-950 border border-gray-800 rounded-xl p-4 overflow-x-auto">
+        <pre class="text-sm font-mono leading-relaxed"><code class="language-java">import java.util.ArrayList;
+import java.util.List;
+
+public class TransactionService {
+  public List&lt;String&gt; getRecentTransactions() {
+    List&lt;String&gt; transactions = new ArrayList&lt;&gt;();
+    transactions.add("Deposit $500");
+    transactions.add("Withdrawal $100");
+    transactions.add("Deposit $500"); // duplicates allowed
+    return transactions;
+  }
+}</code></pre>
+      </div>
+      <p class="text-sm text-gray-400 mt-4">
+        If the API endpoint <span class="font-semibold">/customers/{id}/transactions</span> returns this list,
+        the order will match the order in which transactions occurred.
+      </p>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">Sets – Unique Data</h2>
+      <p class="text-gray-300 mb-4">
+        Sets are great when duplicates are not allowed.
+        In our example, we could use a Set to store unique customer IDs who have subscribed to premium services.
+      </p>
+      <div class="bg-gray-950 border border-gray-800 rounded-xl p-4 overflow-x-auto">
+        <pre class="text-sm font-mono leading-relaxed"><code class="language-java">import java.util.HashSet;
+import java.util.Set;
+
+public class CustomerService {
+  private Set&lt;String&gt; premiumCustomers = new HashSet&lt;&gt;();
+
+  public void addPremiumCustomer(String customerId) {
+    premiumCustomers.add(customerId);
+  }
+
+  public Set&lt;String&gt; getPremiumCustomers() {
+    return premiumCustomers;
+  }
+}</code></pre>
+      </div>
+      <p class="text-sm text-gray-400 mt-4">
+        A Set ensures each customer ID appears only once, even if the API tries to add them multiple times.
+      </p>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">Maps – Key-Value Storage</h2>
+      <p class="text-gray-300 mb-4">
+        Maps are ideal for fast lookups. For example, we could map an account number to its balance.
+      </p>
+      <div class="bg-gray-950 border border-gray-800 rounded-xl p-4 overflow-x-auto">
+        <pre class="text-sm font-mono leading-relaxed"><code class="language-java">import java.util.HashMap;
+import java.util.Map;
+
+public class AccountService {
+  private Map&lt;String, Double&gt; accountBalances = new HashMap&lt;&gt;();
+
+  public void updateBalance(String accountNumber, double balance) {
+    accountBalances.put(accountNumber, balance);
+  }
+
+  public Double getBalance(String accountNumber) {
+    return accountBalances.get(accountNumber);
+  }
+}</code></pre>
+      </div>
+      <p class="text-sm text-gray-400 mt-4">
+        In a REST API, this can back endpoints like <span class="font-semibold">/accounts/{number}/balance</span>.
+      </p>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">hashCode() and equals() in Collections</h2>
+      <p class="text-gray-300 mb-4">
+        For Sets and Maps, <span class="font-semibold">hashCode()</span> and <span class="font-semibold">equals()</span> determine whether two objects are considered the same.
+        These methods should be implemented by you, so your code defines the equality criteria and the hash code.
+      </p>
+      <p class="text-gray-300 mb-4">
+        Example: customers are unique by their ID, not by their name. So the hash code uses the ID and equals compares IDs.
+      </p>
+      <div class="bg-gray-950 border border-gray-800 rounded-xl p-4 overflow-x-auto">
+        <pre class="text-sm font-mono leading-relaxed"><code class="language-java">public class Customer {
+  private String id;
+  private String name;
+
+  // constructor, getters, setters
+
+  @Override
+  public int hashCode() {
+    return id.hashCode();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (!(obj instanceof Customer)) return false;
+    Customer other = (Customer) obj;
+    return this.id.equals(other.id);
+  }
+}</code></pre>
+      </div>
+      <p class="text-sm text-gray-400 mt-4">
+        This prevents duplicate customers in a <span class="font-semibold">Set&lt;Customer&gt;</span> even if they have different names.
+      </p>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">Iterating Through Collections</h2>
+      <p class="text-gray-300 mb-4">
+        Sometimes, you’ll need to loop through elements to transform or filter them before returning them in the API.
+      </p>
+      <div class="bg-gray-950 border border-gray-800 rounded-xl p-4 overflow-x-auto">
+        <pre class="text-sm font-mono leading-relaxed"><code class="language-java">import java.util.List;
+
+public class ReportService {
+  public void printTransactions(List&lt;String&gt; transactions) {
+    for (String tx : transactions) {
+      System.out.println(tx);
+    }
+  }
+}</code></pre>
+      </div>
+      <p class="text-sm text-gray-400 mt-4">
+        In REST APIs, you might filter transactions to only show those above a certain amount.
+      </p>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">Streams API – Modern Data Processing</h2>
+      <p class="text-gray-300 mb-4">
+        Java Streams make it easier to process collections declaratively. It allows you to construct a chain of operations that can be applied to a collection.
+      </p>
+      <p class="font-semibold mb-2 text-gray-200">Example: Find all high-value transactions over $1,000.</p>
+      <div class="bg-gray-950 border border-gray-800 rounded-xl p-4 overflow-x-auto">
+        <pre class="text-sm font-mono leading-relaxed"><code class="language-java">import java.util.List;
+import java.util.stream.Collectors;
+
+public class TransactionFilter {
+  public List&lt;Double&gt; filterHighValue(List&lt;Double&gt; transactions) {
+    return transactions.stream()
+        .filter(amount -&gt; amount &gt; 1000)
+        .collect(Collectors.toList());
+  }
+}</code></pre>
+      </div>
+      <p class="text-sm text-gray-400 mt-4">
+        In an API, this could power an endpoint like <span class="font-semibold">/transactions/high-value</span>.
+      </p>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">Next Steps</h2>
+      <p class="text-gray-300 mb-6">
+        Next, we’ll learn how to handle exceptions and validate API inputs, so our APIs return clean, user-friendly error messages.
+        Thank you, and see you on the next tutorial.
+      </p>
+      <div class="text-center">
+        <a href="course-rest-apis-java-spring-part-4.html" class="btn-primary px-6 py-3 text-white rounded-xl font-semibold">
+          Continue to Part 4 →
+        </a>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="text-center py-10 border-t border-gray-800 text-gray-500 text-sm">
+  <p data-i18n="footer">© 2026 Code Sorcery Academy — Forged in Canada 🇨🇦</p>
+</footer>
+
+<script src="script.js"></script>
+
+</body>
+</html>

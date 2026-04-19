@@ -1,0 +1,81 @@
+/* Custom styles for Code Sorcery Academy */
+
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+.hero-animation {
+  animation: fadeInUp 1s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.skill-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.skill-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.project-card {
+  transition: all 0.3s ease;
+}
+
+.project-card:hover {
+  transform: scale(1.05);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+  transform: translateY(-2px);
+}
+
+/* Add transition to all buttons */
+button, .btn-primary, a[class*="border"] {
+  transition: all 0.3s ease;
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Language toggle button */
+#lang-toggle {
+  font-size: 1.5rem;
+  padding: 0.25rem 1rem;
+  min-width: 3rem;
+  min-height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #4f46e5;
+  background: transparent;
+  color: #4f46e5;
+  transition: all 0.3s ease;
+}
+
+#lang-toggle:hover {
+  background: #4f46e5;
+  color: white;
+}

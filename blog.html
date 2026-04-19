@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Mage Chronicles: stories about backend engineering, systems thinking, and how to review AI-generated code with confidence." />
+  <meta name="keywords" content="developer blog, backend, systems thinking, AI for developers, code review, architecture, career" />
+  <title>Blog | Code Sorcery Academy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-950 text-gray-100">
+
+<header class="flex justify-between items-center px-6 py-4 border-b border-gray-800 sticky top-0 bg-gray-950/80 backdrop-blur">
+  <a href="index.html" class="text-xl font-bold" data-i18n="brand">Code Sorcery Academy</a>
+  <nav class="space-x-6 text-sm flex items-center">
+    <a href="index.html" class="hover:text-indigo-400" data-i18n="nav_home">Home</a>
+    <a href="portfolio.html" class="hover:text-indigo-400" data-i18n="nav_portfolio">Portfolio</a>
+    <a href="tutorials.html" class="hover:text-indigo-400" data-i18n="nav_tutorials">Tutorials</a>
+    <a href="blog.html" class="text-indigo-400" data-i18n="nav_blog">Blog</a>
+    <button id="lang-toggle" class="ml-4 rounded font-semibold">🇧🇷</button>
+  </nav>
+</header>
+
+<section class="text-center py-20 px-6 hero-animation">
+  <h1 class="text-4xl md:text-5xl font-bold mb-4" data-i18n="blog_title">Mage Chronicles</h1>
+  <p class="text-gray-400 max-w-2xl mx-auto" data-i18n="blog_desc">
+    Stories from real engineering: building systems, reviewing AI output, and growing from apprentice to senior.
+  </p>
+</section>
+
+<section class="max-w-4xl mx-auto space-y-6 px-6 pb-20">
+
+  <div class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 hover:border-indigo-500">
+    <div class="flex items-center mb-4">
+      <span class="text-xs text-gray-500 bg-gray-800 px-2 py-1 rounded mr-4" data-i18n="blog_post1_date">April 15, 2026</span>
+      <span class="text-xs text-indigo-400" data-i18n="blog_post1_tag">Philosophy</span>
+    </div>
+    <h2 class="font-bold text-xl mb-2" data-i18n="blog_post1_title">AI Is a Wand, Not a Brain</h2>
+    <p class="text-gray-400 mb-4" data-i18n="blog_post1_desc">How to use AI daily without losing your fundamentals — and why “understanding the connections” is the real multiplier.</p>
+    <a href="#" class="text-indigo-400 hover:text-indigo-300 text-sm" data-i18n="blog_post1_cta">Read the chronicle →</a>
+  </div>
+
+  <div class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 hover:border-indigo-500">
+    <div class="flex items-center mb-4">
+      <span class="text-xs text-gray-500 bg-gray-800 px-2 py-1 rounded mr-4" data-i18n="blog_post2_date">March 28, 2026</span>
+      <span class="text-xs text-indigo-400" data-i18n="blog_post2_tag">Deep Dive</span>
+    </div>
+    <h2 class="font-bold text-xl mb-2" data-i18n="blog_post2_title">How to Review AI-Generated Code</h2>
+    <p class="text-gray-400 mb-4" data-i18n="blog_post2_desc">A pragmatic checklist: correctness, security, performance, maintainability, and the missing tests.</p>
+    <a href="#" class="text-indigo-400 hover:text-indigo-300 text-sm" data-i18n="blog_post2_cta">Open the checklist →</a>
+  </div>
+
+  <div class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 hover:border-indigo-500">
+    <div class="flex items-center mb-4">
+      <span class="text-xs text-gray-500 bg-gray-800 px-2 py-1 rounded mr-4" data-i18n="blog_post3_date">March 10, 2026</span>
+      <span class="text-xs text-indigo-400" data-i18n="blog_post3_tag">Career</span>
+    </div>
+    <h2 class="font-bold text-xl mb-2" data-i18n="blog_post3_title">From Junior to Competent</h2>
+    <p class="text-gray-400 mb-4" data-i18n="blog_post3_desc">Skills that compound: mental models, system maps, and learning to ask better questions than the tool.</p>
+    <a href="#" class="text-indigo-400 hover:text-indigo-300 text-sm" data-i18n="blog_post3_cta">Follow the path →</a>
+  </div>
+
+  <div class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 hover:border-indigo-500">
+    <div class="flex items-center mb-4">
+      <span class="text-xs text-gray-500 bg-gray-800 px-2 py-1 rounded mr-4" data-i18n="blog_post4_date">February 22, 2026</span>
+      <span class="text-xs text-indigo-400" data-i18n="blog_post4_tag">Architecture</span>
+    </div>
+    <h2 class="font-bold text-xl mb-2" data-i18n="blog_post4_title">Monolith, Modular Monolith, Microservices</h2>
+    <p class="text-gray-400 mb-4" data-i18n="blog_post4_desc">Choosing complexity on purpose: boundaries, deployability, and the cost of “distributed magic”.</p>
+    <a href="#" class="text-indigo-400 hover:text-indigo-300 text-sm" data-i18n="blog_post4_cta">Compare trade-offs →</a>
+  </div>
+
+  <div class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 hover:border-indigo-500">
+    <div class="flex items-center mb-4">
+      <span class="text-xs text-gray-500 bg-gray-800 px-2 py-1 rounded mr-4" data-i18n="blog_post5_date">February 5, 2026</span>
+      <span class="text-xs text-indigo-400" data-i18n="blog_post5_tag">DevOps</span>
+    </div>
+    <h2 class="font-bold text-xl mb-2" data-i18n="blog_post5_title">Shipping Rituals That Work</h2>
+    <p class="text-gray-400 mb-4" data-i18n="blog_post5_desc">CI/CD practices that keep teams fast: small batches, observability, and rollback strategies.</p>
+    <a href="#" class="text-indigo-400 hover:text-indigo-300 text-sm" data-i18n="blog_post5_cta">Learn the rituals →</a>
+  </div>
+
+</section>
+
+<footer class="text-center py-10 border-t border-gray-800 text-gray-500 text-sm">
+  <p data-i18n="footer">© 2026 Code Sorcery Academy — Forged in Canada 🇨🇦</p>
+</footer>
+
+<script src="script.js"></script>
+
+</body>
+</html>

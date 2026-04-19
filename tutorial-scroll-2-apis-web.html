@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Pergaminho II (APIs & Web): HTTP, contratos, auth, erros e como projetar APIs que sobrevivem a produção — e a IA." />
+  <meta name="keywords" content="HTTP, REST, Spring Boot, APIs, autenticação, autorização, validação, idempotência, clean code" />
+  <title>Pergaminho II — APIs & Web | Code Sorcery Academy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-950 text-gray-100">
+
+<header class="flex justify-between items-center px-6 py-4 border-b border-gray-800 sticky top-0 bg-gray-950/80 backdrop-blur">
+  <a href="index.html" class="text-xl font-bold" data-i18n="brand">Code Sorcery Academy</a>
+  <nav class="space-x-6 text-sm flex items-center">
+    <a href="index.html" class="hover:text-indigo-400" data-i18n="nav_home">Home</a>
+    <a href="portfolio.html" class="hover:text-indigo-400" data-i18n="nav_portfolio">Portfolio</a>
+    <a href="tutorials.html" class="text-indigo-400" data-i18n="nav_tutorials">Tutorials</a>
+    <a href="blog.html" class="hover:text-indigo-400" data-i18n="nav_blog">Blog</a>
+    <button id="lang-toggle" class="ml-4 rounded font-semibold">🇧🇷</button>
+  </nav>
+</header>
+
+<section class="text-center py-16 px-6 hero-animation">
+  <p class="text-indigo-400 text-sm tracking-widest uppercase mb-3">Pergaminho II</p>
+  <h1 class="text-4xl md:text-5xl font-bold mb-4">APIs & Web: contratos, limites e erros</h1>
+  <p class="text-gray-400 max-w-3xl mx-auto text-lg">
+    API não é controller bonito. API é contrato, compatibilidade, segurança e previsibilidade.
+    É aqui que você para de “fazer funcionar” e começa a construir sistemas confiáveis.
+  </p>
+  <div class="mt-8 flex items-center justify-center gap-3">
+    <a href="tutorial-scroll-1-foundations.html" class="px-5 py-3 border border-gray-800 rounded-xl hover:border-indigo-500 hover:bg-indigo-500/10 hover:text-indigo-300">
+      ← Pergaminho I
+    </a>
+    <a href="tutorial-scroll-3-data-oracle.html" class="btn-primary px-5 py-3 text-white rounded-xl font-semibold">
+      Próximo: Dados & Oracle →
+    </a>
+  </div>
+</section>
+
+<main class="px-6 pb-20">
+  <div class="max-w-4xl mx-auto space-y-10">
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">Mapa do pergaminho</h2>
+      <div class="grid md:grid-cols-2 gap-4 text-gray-300">
+        <div class="bg-gray-950/40 border border-gray-800 rounded-xl p-4">
+          <p class="font-semibold mb-1">HTTP como linguagem</p>
+          <p class="text-sm text-gray-400">Métodos, status codes, caching, headers. Você usa o protocolo a seu favor.</p>
+        </div>
+        <div class="bg-gray-950/40 border border-gray-800 rounded-xl p-4">
+          <p class="font-semibold mb-1">Contratos e compatibilidade</p>
+          <p class="text-sm text-gray-400">Versionamento, breaking changes, DTOs, validação, e o custo de mudar em produção.</p>
+        </div>
+        <div class="bg-gray-950/40 border border-gray-800 rounded-xl p-4">
+          <p class="font-semibold mb-1">Auth/AuthZ de verdade</p>
+          <p class="text-sm text-gray-400">Autenticação, autorização, permissões, políticas e auditoria.</p>
+        </div>
+        <div class="bg-gray-950/40 border border-gray-800 rounded-xl p-4">
+          <p class="font-semibold mb-1">Erros e idempotência</p>
+          <p class="text-sm text-gray-400">Erros consistentes, retries do cliente, idempotency keys e concorrência.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">Feitiço Base: resposta de erro como contrato</h2>
+      <p class="text-gray-300 mb-4">
+        Uma API madura trata erros como produto. Erro precisa ser previsível (máquinas) e explicável (humanos).
+        Isso te dá poder para revisar código gerado por IA: “O contrato do erro ficou consistente em todas as rotas?”
+      </p>
+      <div class="bg-gray-950 border border-gray-800 rounded-xl p-4 overflow-x-auto">
+        <pre class="text-sm font-mono leading-relaxed"><code class="language-json">{
+  "error": "validation_error",
+  "message": "Campo 'email' inválido.",
+  "path": "/v1/users",
+  "traceId": "01HZX...9Q",
+  "details": [
+    { "field": "email", "reason": "must be a well-formed email address" }
+  ]
+}</code></pre>
+      </div>
+      <div class="mt-6 bg-gray-950/40 border border-gray-800 rounded-xl p-4">
+        <p class="font-semibold mb-1">Checklist de review (o que a IA costuma esquecer)</p>
+        <ul class="list-disc list-inside text-sm text-gray-300 space-y-1">
+          <li>Status code correto (400/401/403/404/409/422/429/5xx).</li>
+          <li>Mesmo formato em todos os endpoints (sem surpresas).</li>
+          <li>TraceId correlacionável (logs/traces).</li>
+          <li>Sem vazamento de detalhes sensíveis (stack trace, SQL, nomes internos).</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">Spring Boot: o mínimo que vira máximo em produção</h2>
+      <p class="text-gray-300 mb-4">
+        Em APIs reais, você ganha o jogo nos detalhes: validação, boundaries, logs, observabilidade e testes.
+        Controller é a borda. O domínio é onde a verdade mora.
+      </p>
+      <div class="bg-gray-950 border border-gray-800 rounded-xl p-4 overflow-x-auto">
+        <pre class="text-sm font-mono leading-relaxed"><code class="language-java">import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
+record CreateUserRequest(@NotBlank String name, @Email String email) {}
+record CreateUserResponse(String id) {}
+
+@RestController
+@RequestMapping("/v1/users")
+final class UsersController {
+  private final UsersService usersService;
+
+  UsersController(UsersService usersService) {
+    this.usersService = usersService;
+  }
+
+  @PostMapping
+  @ResponseStatus(HttpStatus.CREATED)
+  CreateUserResponse create(@RequestBody @jakarta.validation.Valid CreateUserRequest req) {
+    return new CreateUserResponse(usersService.create(req.name(), req.email()));
+  }
+}</code></pre>
+      </div>
+      <p class="text-sm text-gray-400 mt-4">
+        Nota de senior: DTOs são contrato. Não exponha entidade. E não deixe validação “escorrer” pro domínio sem uma tradução explícita de erro.
+      </p>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">Idempotência: o feitiço anti-duplicação</h2>
+      <p class="text-gray-300 mb-4">
+        Clientes retryam. Proxies retryam. Seus workers retryam. Sem idempotência você cria cobranças duplicadas, pedidos duplicados e bugs “fantasmas”.
+      </p>
+      <div class="bg-gray-950/40 border border-gray-800 rounded-xl p-4 text-gray-300">
+        <p class="font-semibold mb-1">Prática recomendada</p>
+        <ul class="list-disc list-inside text-sm space-y-1">
+          <li>POST sensível recebe <span class="font-semibold">Idempotency-Key</span>.</li>
+          <li>Você registra o resultado por key (com TTL) e retorna o mesmo response em retries.</li>
+          <li>No banco: key única + transação (sem race conditions).</li>
+        </ul>
+      </div>
+      <div class="mt-6 bg-indigo-500/10 border border-indigo-500/30 rounded-xl p-4 text-gray-200">
+        <p class="font-semibold mb-1">Pergunta que sobe carreira</p>
+        <p class="text-sm text-gray-300">
+          “Esse endpoint é safe contra retry? E contra duas requisições concorrentes do mesmo usuário?”
+        </p>
+      </div>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">Quests (com e sem IA)</h2>
+      <ol class="list-decimal list-inside text-gray-300 space-y-2">
+        <li>Desenhe um endpoint de criação de pedido com idempotência e erros padronizados.</li>
+        <li>Escreva uma especificação curta (contrato): request/response, erros, status codes, headers.</li>
+        <li>Peça para a IA implementar “controller + service + testes”.</li>
+        <li>Faça review com foco em: validação, erros, idempotência, e boundary (controller vs domínio).</li>
+        <li>Adicione 5 testes de contrato (ex.: error shape, status code, field validation).</li>
+      </ol>
+    </section>
+
+    <section class="text-center text-gray-400">
+      <p class="mb-4">Próximo: dados e persistência (com um capítulo especial para Oracle e armadilhas de JPA).</p>
+      <a href="tutorial-scroll-3-data-oracle.html" class="btn-primary px-6 py-3 text-white rounded-xl font-semibold">
+        Ir para Pergaminho III →
+      </a>
+    </section>
+
+  </div>
+</main>
+
+<footer class="text-center py-10 border-t border-gray-800 text-gray-500 text-sm">
+  <p data-i18n="footer">© 2026 Code Sorcery Academy — Forged in Canada 🇨🇦</p>
+</footer>
+
+<script src="script.js"></script>
+
+</body>
+</html>

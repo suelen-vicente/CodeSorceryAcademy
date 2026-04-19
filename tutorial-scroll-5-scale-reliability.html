@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Pergaminho V (Escala & Confiabilidade): cache, async, observabilidade e padrões de resiliência para APIs." />
+  <meta name="keywords" content="escala, confiabilidade, cache, mensageria, resiliência, rate limiting, observabilidade, SLO" />
+  <title>Pergaminho V — Escala & Confiabilidade | Code Sorcery Academy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-950 text-gray-100">
+
+<header class="flex justify-between items-center px-6 py-4 border-b border-gray-800 sticky top-0 bg-gray-950/80 backdrop-blur">
+  <a href="index.html" class="text-xl font-bold" data-i18n="brand">Code Sorcery Academy</a>
+  <nav class="space-x-6 text-sm flex items-center">
+    <a href="index.html" class="hover:text-indigo-400" data-i18n="nav_home">Home</a>
+    <a href="portfolio.html" class="hover:text-indigo-400" data-i18n="nav_portfolio">Portfolio</a>
+    <a href="tutorials.html" class="text-indigo-400" data-i18n="nav_tutorials">Tutorials</a>
+    <a href="blog.html" class="hover:text-indigo-400" data-i18n="nav_blog">Blog</a>
+    <button id="lang-toggle" class="ml-4 rounded font-semibold">🇧🇷</button>
+  </nav>
+</header>
+
+<section class="text-center py-16 px-6 hero-animation">
+  <p class="text-indigo-400 text-sm tracking-widest uppercase mb-3">Pergaminho V</p>
+  <h1 class="text-4xl md:text-5xl font-bold mb-4">Escala & Confiabilidade: padrões para sobreviver</h1>
+  <p class="text-gray-400 max-w-3xl mx-auto text-lg">
+    Em produção, o inimigo é o “quando tudo dá errado ao mesmo tempo”. Aqui você aprende a reduzir blast radius,
+    projetar para falhas e operar com sinais (métricas/traces/logs) em vez de intuição.
+  </p>
+  <div class="mt-8 flex items-center justify-center gap-3">
+    <a href="tutorial-scroll-4-cloud-delivery.html" class="px-5 py-3 border border-gray-800 rounded-xl hover:border-indigo-500 hover:bg-indigo-500/10 hover:text-indigo-300">
+      ← Pergaminho IV
+    </a>
+    <a href="tutorials.html" class="btn-primary px-5 py-3 text-white rounded-xl font-semibold">
+      Voltar aos Pergaminhos
+    </a>
+  </div>
+</section>
+
+<main class="px-6 pb-20">
+  <div class="max-w-4xl mx-auto space-y-10">
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">A regra de ouro</h2>
+      <p class="text-gray-300">
+        Confiabilidade não é “não cair”. É: cair de forma previsível, recuperar rápido, e aprender com sinais.
+        Escala não é “suportar mais tráfego”. É: manter latência, custo e integridade com mais tráfego.
+      </p>
+      <div class="mt-5 grid md:grid-cols-4 gap-3 text-sm text-gray-300">
+        <div class="bg-gray-950/40 border border-gray-800 rounded-xl p-4">
+          <p class="font-semibold mb-1">Backpressure</p>
+          <p class="text-gray-400">Quando o downstream sofre, você precisa desacelerar.</p>
+        </div>
+        <div class="bg-gray-950/40 border border-gray-800 rounded-xl p-4">
+          <p class="font-semibold mb-1">Limites</p>
+          <p class="text-gray-400">Timeouts, retries, rate limits. Sem limites, o sistema se auto-destrói.</p>
+        </div>
+        <div class="bg-gray-950/40 border border-gray-800 rounded-xl p-4">
+          <p class="font-semibold mb-1">Isolamento</p>
+          <p class="text-gray-400">Bulkheads, filas, circuit breakers. Um erro não vira pandemia.</p>
+        </div>
+        <div class="bg-gray-950/40 border border-gray-800 rounded-xl p-4">
+          <p class="font-semibold mb-1">Sinais</p>
+          <p class="text-gray-400">Logs, métricas, traces. Você enxerga, mede, corrige.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">Cache: o feitiço que pode te amaldiçoar</h2>
+      <p class="text-gray-300 mb-4">
+        Cache resolve latência e custo — e introduz consistência eventual, invalidação e bugs difíceis.
+        A pergunta é: “Qual é a tolerância do domínio para dado velho?”
+      </p>
+      <div class="grid md:grid-cols-2 gap-4 text-gray-300">
+        <div class="bg-gray-950/40 border border-gray-800 rounded-xl p-4">
+          <p class="font-semibold mb-1">Bom para</p>
+          <p class="text-sm text-gray-400">Read-heavy, listas, catálogos, configs, rate-limit counters, tokens.</p>
+        </div>
+        <div class="bg-gray-950/40 border border-gray-800 rounded-xl p-4">
+          <p class="font-semibold mb-1">Perigoso em</p>
+          <p class="text-sm text-gray-400">Saldos, permissões, antifraude, workflows críticos sem estratégia de invalidação.</p>
+        </div>
+      </div>
+      <div class="mt-6 bg-indigo-500/10 border border-indigo-500/30 rounded-xl p-4 text-gray-200">
+        <p class="font-semibold mb-1">Review de IA (cache)</p>
+        <p class="text-sm text-gray-300">
+          “Qual a chave? Qual o TTL? Como invalida? O que acontece se o cache cair? E se a chave colidir?”
+        </p>
+      </div>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">Async & mensageria: desacoplamento com disciplina</h2>
+      <p class="text-gray-300 mb-4">
+        Fila é magia poderosa: absorve picos, isola falhas e permite retries. Mas exige idempotência e observabilidade.
+      </p>
+      <div class="bg-gray-950/40 border border-gray-800 rounded-xl p-4 text-gray-300">
+        <p class="font-semibold mb-1">Padrões que salvam incidentes</p>
+        <ul class="list-disc list-inside text-sm space-y-1">
+          <li>Idempotency por mensagem (dedupe key).</li>
+          <li>Retry com backoff + dead-letter para análise.</li>
+          <li>Outbox pattern para consistência entre DB e publish.</li>
+          <li>Tracing propagado (correlation id) para seguir o fluxo.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">Resiliência: timeouts, retries e circuit breakers</h2>
+      <p class="text-gray-300 mb-4">
+        A maioria dos “bugs de escala” são bugs de rede. Se você não define timeouts e não controla retries, você cria tempestade.
+      </p>
+      <div class="grid md:grid-cols-3 gap-3 text-gray-300 text-sm">
+        <div class="bg-gray-950/40 border border-gray-800 rounded-xl p-4">
+          <p class="font-semibold mb-1">Timeout</p>
+          <p class="text-gray-400">Curto o suficiente para liberar recurso; longo o suficiente para completar o que importa.</p>
+        </div>
+        <div class="bg-gray-950/40 border border-gray-800 rounded-xl p-4">
+          <p class="font-semibold mb-1">Retry</p>
+          <p class="text-gray-400">Só quando faz sentido (idempotente) e com backoff + jitter.</p>
+        </div>
+        <div class="bg-gray-950/40 border border-gray-800 rounded-xl p-4">
+          <p class="font-semibold mb-1">Circuit Breaker</p>
+          <p class="text-gray-400">Quando o downstream está morrendo, você corta para salvar o sistema inteiro.</p>
+        </div>
+      </div>
+      <div class="mt-6 bg-gray-950 border border-gray-800 rounded-xl p-4 overflow-x-auto">
+        <pre class="text-sm font-mono leading-relaxed"><code class="language-text">Perguntas de review (especialmente para código de IA):
+- Esse retry pode duplicar efeitos?
+- Existe timeout em cada chamada remota?
+- O que acontece sob falha parcial (50% de erros)?
+- Existe fallback? E ele é seguro (não vaza permissão, não gera dado errado)?</code></pre>
+      </div>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">Observabilidade: o olho que enxerga a magia</h2>
+      <p class="text-gray-300 mb-4">
+        Sem sinais, você opera no escuro. Com sinais, você depura com método: “o que mudou?”, “onde piorou?”, “qual o impacto?”.
+      </p>
+      <div class="grid md:grid-cols-3 gap-3 text-gray-300 text-sm">
+        <div class="bg-gray-950/40 border border-gray-800 rounded-xl p-4">
+          <p class="font-semibold mb-1">Logs</p>
+          <p class="text-gray-400">Estruturados, com traceId, sem dados sensíveis, com nível certo.</p>
+        </div>
+        <div class="bg-gray-950/40 border border-gray-800 rounded-xl p-4">
+          <p class="font-semibold mb-1">Métricas</p>
+          <p class="text-gray-400">Latência, throughput, erros, saturação. Os 4 sinais de ouro.</p>
+        </div>
+        <div class="bg-gray-950/40 border border-gray-800 rounded-xl p-4">
+          <p class="font-semibold mb-1">Traces</p>
+          <p class="text-gray-400">Seguimento ponta a ponta. Onde o tempo foi gasto.</p>
+        </div>
+      </div>
+      <div class="mt-6 bg-indigo-500/10 border border-indigo-500/30 rounded-xl p-4 text-gray-200">
+        <p class="font-semibold mb-1">SLO (a magia que alinha time e negócio)</p>
+        <p class="text-sm text-gray-300">
+          Defina metas de confiabilidade (ex.: 99.9% de sucesso, p95 &lt; 300ms) e use error budget para decidir o ritmo de mudanças.
+        </p>
+      </div>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">Quest final: incidentes simulados</h2>
+      <ol class="list-decimal list-inside text-gray-300 space-y-2">
+        <li>Escolha um endpoint com downstream (DB + serviço externo fake).</li>
+        <li>Simule falha parcial (latência + 30% 500) e observe o comportamento.</li>
+        <li>Adicione timeout + retry com backoff e garanta idempotência.</li>
+        <li>Adicione circuit breaker e um fallback seguro.</li>
+        <li>Peça para a IA sugerir “melhorias” e faça review com foco em blast radius e sinais.</li>
+      </ol>
+    </section>
+
+    <section class="text-center text-gray-400">
+      <p class="mb-4">Se você chegou até aqui, você não está só usando magia — você entende como ela funciona.</p>
+      <a href="portfolio.html" class="px-6 py-3 border border-gray-800 rounded-xl hover:border-indigo-500 hover:bg-indigo-500/10 hover:text-indigo-300">
+        Ver estudos de caso →
+      </a>
+    </section>
+
+  </div>
+</main>
+
+<footer class="text-center py-10 border-t border-gray-800 text-gray-500 text-sm">
+  <p data-i18n="footer">© 2026 Code Sorcery Academy — Forged in Canada 🇨🇦</p>
+</footer>
+
+<script src="script.js"></script>
+
+</body>
+</html>

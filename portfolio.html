@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Case studies and backend artifacts from Code Sorcery Academy: systems thinking, trade-offs, and disciplined reviews of AI-generated code." />
+  <meta name="keywords" content="backend portfolio, case studies, systems thinking, Java, Spring Boot, architecture, AI code review" />
+  <title>Portfolio | Code Sorcery Academy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-950 text-gray-100">
+
+  <!-- NAV -->
+  <header class="flex justify-between items-center px-6 py-4 border-b border-gray-800 sticky top-0 bg-gray-950/80 backdrop-blur">
+    <a href="index.html" class="text-xl font-bold" data-i18n="brand">Code Sorcery Academy</a>
+
+    <nav class="space-x-6 text-sm flex items-center">
+      <a href="index.html" class="hover:text-indigo-400" data-i18n="nav_home">Home</a>
+      <a href="portfolio.html" class="text-indigo-400" data-i18n="nav_portfolio">Portfolio</a>
+      <a href="tutorials.html" class="hover:text-indigo-400" data-i18n="nav_tutorials">Tutorials</a>
+      <a href="blog.html" class="hover:text-indigo-400" data-i18n="nav_blog">Blog</a>
+      <button id="lang-toggle" class="ml-4 rounded font-semibold">🇧🇷</button>
+    </nav>
+  </header>
+
+  <!-- HEADER -->
+  <section class="text-center py-20 px-6 hero-animation">
+    <h1 class="text-4xl md:text-5xl font-bold mb-4" data-i18n="portfolio_title">Portfolio of Spells</h1>
+    <p class="text-gray-400 max-w-2xl mx-auto" data-i18n="portfolio_desc">
+      Case studies and backend artifacts: systems thinking, trade-offs, and the discipline to review AI-generated code.
+    </p>
+  </section>
+
+  <section class="px-6 pb-20">
+    <h2 class="text-2xl font-bold mb-6 text-center" data-i18n="portfolio_real_title">Case Studies</h2>
+
+    <div class="grid md:grid-cols-2 gap-6 max-w-6xl mx-auto">
+      <div class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 hover:border-indigo-500">
+        <h3 class="font-bold text-lg mb-2" data-i18n="portfolio_card1_title">Auth & Permissions Blueprint</h3>
+        <p class="text-gray-400 text-sm mt-2 mb-4" data-i18n="portfolio_card1_desc">
+          JWT sessions, roles, policy checks, and safe defaults. Designed to be readable — and reviewable.
+        </p>
+        <p class="text-xs text-gray-500 mb-4" data-i18n="portfolio_card1_stack">Focus: Spring Security, threat modeling, tests</p>
+        <a href="#" class="text-indigo-400 hover:text-indigo-300 text-sm">
+          <i class="fab fa-github mr-1"></i><span data-i18n="portfolio_view_repo">View repo</span>
+        </a>
+      </div>
+
+      <div class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 hover:border-indigo-500">
+        <h3 class="font-bold text-lg mb-2" data-i18n="portfolio_card2_title">Event-Driven Pipeline</h3>
+        <p class="text-gray-400 text-sm mt-2 mb-4" data-i18n="portfolio_card2_desc">
+          Queues, retries, idempotency, and dead-letter strategies. Built to survive real failures.
+        </p>
+        <p class="text-xs text-gray-500 mb-4" data-i18n="portfolio_card2_stack">Focus: messaging, async flow, backpressure</p>
+        <a href="#" class="text-indigo-400 hover:text-indigo-300 text-sm">
+          <i class="fab fa-github mr-1"></i><span data-i18n="portfolio_view_repo">View repo</span>
+        </a>
+      </div>
+
+      <div class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 hover:border-indigo-500">
+        <h3 class="font-bold text-lg mb-2" data-i18n="portfolio_card3_title">Observability Grimoire</h3>
+        <p class="text-gray-400 text-sm mt-2 mb-4" data-i18n="portfolio_card3_desc">
+          Structured logs, metrics, traces, and alerting rules that actually catch incidents.
+        </p>
+        <p class="text-xs text-gray-500 mb-4" data-i18n="portfolio_card3_stack">Focus: telemetry, SLOs, debugging workflows</p>
+        <a href="#" class="text-indigo-400 hover:text-indigo-300 text-sm">
+          <i class="fab fa-github mr-1"></i><span data-i18n="portfolio_view_repo">View repo</span>
+        </a>
+      </div>
+
+      <div class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 hover:border-indigo-500">
+        <h3 class="font-bold text-lg mb-2" data-i18n="portfolio_card4_title">AI-Assisted Refactor (Safely)</h3>
+        <p class="text-gray-400 text-sm mt-2 mb-4" data-i18n="portfolio_card4_desc">
+          Using AI to speed up changes without breaking behavior: tests first, small diffs, strong review.
+        </p>
+        <p class="text-xs text-gray-500 mb-4" data-i18n="portfolio_card4_stack">Focus: TDD, reviews, incremental design</p>
+        <a href="#" class="text-indigo-400 hover:text-indigo-300 text-sm">
+          <i class="fab fa-github mr-1"></i><span data-i18n="portfolio_view_repo">View repo</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="text-center py-10 border-t border-gray-800 text-gray-500 text-sm">
+    <p data-i18n="footer">© 2026 Code Sorcery Academy — Forged in Canada 🇨🇦</p>
+  </footer>
+
+<script src="script.js"></script>
+
+</body>
+</html>

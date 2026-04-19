@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Part 2: Core Java concepts for building clean, maintainable, scalable REST APIs (OOP, access modifiers, equals, static/final)." />
+  <meta name="keywords" content="Java, OOP, encapsulation, inheritance, composition, polymorphism, access modifiers, equals, static, final, REST APIs" />
+  <title>Part 2 — Java Essentials | Code Sorcery Academy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-950 text-gray-100">
+
+<header class="flex justify-between items-center px-6 py-4 border-b border-gray-800 sticky top-0 bg-gray-950/80 backdrop-blur">
+  <a href="index.html" class="text-xl font-bold" data-i18n="brand">Code Sorcery Academy</a>
+  <nav class="space-x-6 text-sm flex items-center">
+    <a href="index.html" class="hover:text-indigo-400" data-i18n="nav_home">Home</a>
+    <a href="portfolio.html" class="hover:text-indigo-400" data-i18n="nav_portfolio">Portfolio</a>
+    <a href="tutorials.html" class="text-indigo-400" data-i18n="nav_tutorials">Tutorials</a>
+    <a href="blog.html" class="hover:text-indigo-400" data-i18n="nav_blog">Blog</a>
+    <button id="lang-toggle" class="ml-4 rounded font-semibold">🇧🇷</button>
+  </nav>
+</header>
+
+<section class="text-center py-14 px-6 hero-animation">
+  <p class="text-indigo-400 text-sm tracking-widest uppercase mb-3">Part 2</p>
+  <h1 class="text-4xl md:text-5xl font-bold mb-4">Java Essentials for API Development</h1>
+  <p class="text-gray-400 max-w-3xl mx-auto text-lg">
+    In Part 1, we set up our environment and tools. Now, let’s explore core Java concepts that are critical for building clean,
+    maintainable, and scalable REST APIs.
+  </p>
+  <div class="mt-8 flex items-center justify-center gap-3">
+    <a href="course-rest-apis-java-spring-part-1.html" class="px-5 py-3 border border-gray-800 rounded-xl hover:border-indigo-500 hover:bg-indigo-500/10 hover:text-indigo-300">
+      ← Part 1
+    </a>
+    <a href="course-rest-apis-java-spring-part-3.html" class="btn-primary px-5 py-3 text-white rounded-xl font-semibold">
+      Next: Collections →
+    </a>
+  </div>
+</section>
+
+<main class="px-6 pb-20">
+  <div class="max-w-4xl mx-auto space-y-10">
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">What We’ll Cover</h2>
+      <ul class="list-disc list-inside text-gray-300 space-y-1">
+        <li>Object-Oriented Programming (OOP) principles in an API context</li>
+        <li>Access modifiers for encapsulation and security</li>
+        <li>The difference between <span class="font-semibold">==</span> and <span class="font-semibold">equals()</span></li>
+        <li><span class="font-semibold">static</span> and <span class="font-semibold">final</span> keywords</li>
+      </ul>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">Object-Oriented Programming (OOP) for APIs</h2>
+      <p class="text-gray-300 mb-4">
+        OOP is the foundation of Java and directly affects how we design our API models, services, and controllers.
+        In a fintech API (like FinBank), design mistakes quickly become security and data integrity problems.
+      </p>
+
+      <div class="space-y-6 text-gray-300">
+        <div class="bg-gray-950/40 border border-gray-800 rounded-xl p-4">
+          <h3 class="text-xl font-bold mb-2">Encapsulation</h3>
+          <p class="text-gray-300 mb-4">
+            Encapsulation encourages you to hide an object’s internal state and expose only what’s necessary.
+            This makes classes more secure and easier to understand.
+          </p>
+          <p class="text-gray-300 mb-4">
+            In an API, encapsulation helps prevent exposing sensitive fields (like passwords or internal flags) by mistake.
+          </p>
+          <p class="font-semibold mb-2">Example – API User model:</p>
+          <div class="bg-gray-950 border border-gray-800 rounded-xl p-4 overflow-x-auto">
+            <pre class="text-sm font-mono leading-relaxed"><code class="language-java">public class User {
+  private String username;
+  private String email;
+
+  // Constructor
+  public User(String username, String email) {
+    this.username = username;
+    this.email = email;
+  }
+
+  // Getter and Setter
+  public String getUsername() { return username; }
+  public void setUsername(String username) { this.username = username; }
+
+  public String getEmail() { return email; }
+  public void setEmail(String email) { this.email = email; }
+}</code></pre>
+          </div>
+          <div class="mt-4 bg-indigo-500/10 border border-indigo-500/30 rounded-xl p-4 text-gray-200">
+            <p class="font-semibold mb-1">Tip</p>
+            <p class="text-sm text-gray-300">
+              Don’t create getters and setters without purpose. Some properties don’t need both. Decide what should be accessible
+              and what can be changed to keep your model concise and safe.
+            </p>
+          </div>
+        </div>
+
+        <div class="bg-gray-950/40 border border-gray-800 rounded-xl p-4">
+          <h3 class="text-xl font-bold mb-2">Inheritance</h3>
+          <p class="text-gray-300 mb-4">
+            Inheritance allows one class to acquire fields and methods from another. It’s useful when paired with polymorphism,
+            but it can also introduce tight coupling if abused.
+          </p>
+          <p class="font-semibold mb-2">Example – API Response models:</p>
+          <div class="bg-gray-950 border border-gray-800 rounded-xl p-4 overflow-x-auto">
+            <pre class="text-sm font-mono leading-relaxed"><code class="language-java">public class ApiResponse {
+  private String status;
+  private String message;
+
+  // Constructors, getters, setters
+
+  protected String returnError() {
+    return status + " " + message;
+  }
+}
+
+public class ErrorResponse extends ApiResponse {
+  private int errorCode;
+
+  // Constructors, getters, setters
+}
+
+public class ErrorTest {
+  private ErrorResponse error;
+  private ApiResponse response;
+
+  public void test() {
+    System.out.println("Error: " + error.returnError());
+    System.out.println("Response: " + response.returnError());
+  }
+}</code></pre>
+          </div>
+          <p class="text-sm text-gray-400 mt-4">
+            Here, <span class="font-semibold">ErrorResponse</span> inherits from <span class="font-semibold">ApiResponse</span>,
+            so both share a common method.
+          </p>
+        </div>
+
+        <div class="bg-gray-950/40 border border-gray-800 rounded-xl p-4">
+          <h3 class="text-xl font-bold mb-2">Composition</h3>
+          <p class="text-gray-300 mb-4">
+            Composition means building classes using other classes, instead of inheriting from them.
+            In API design, composition is often preferred for flexibility and testability.
+          </p>
+          <p class="font-semibold mb-2">Example – Order entity containing a User object:</p>
+          <div class="bg-gray-950 border border-gray-800 rounded-xl p-4 overflow-x-auto">
+            <pre class="text-sm font-mono leading-relaxed"><code class="language-java">public class Order {
+  private String orderId;
+  private User customer; // Composition
+
+  // Constructors, getters, setters
+}</code></pre>
+          </div>
+          <p class="text-sm text-gray-400 mt-4">
+            Composition also makes automated tests easier: dependencies can be mocked directly, while inheritance often makes behavior harder to isolate.
+          </p>
+        </div>
+
+        <div class="bg-gray-950/40 border border-gray-800 rounded-xl p-4">
+          <h3 class="text-xl font-bold mb-2">Polymorphism</h3>
+          <p class="text-gray-300 mb-4">
+            Polymorphism allows the same method to take different forms depending on the object.
+            It works closely with inheritance and interfaces.
+          </p>
+          <p class="font-semibold mb-2">Example – Payment processing in an API:</p>
+          <div class="bg-gray-950 border border-gray-800 rounded-xl p-4 overflow-x-auto">
+            <pre class="text-sm font-mono leading-relaxed"><code class="language-java">public interface PaymentProcessor {
+  void processPayment(double amount);
+}
+
+public class CreditCardPayment implements PaymentProcessor {
+  public void processPayment(double amount) {
+    System.out.println("Processing credit card payment: $" + amount);
+  }
+}
+
+public class PaypalPayment implements PaymentProcessor {
+  public void processPayment(double amount) {
+    System.out.println("Processing PayPal payment: $" + amount);
+  }
+}</code></pre>
+          </div>
+          <p class="text-sm text-gray-400 mt-4">
+            This helps you avoid multiple <span class="font-semibold">if</span> paths: the object itself “knows” how to process a payment.
+            Your API can decide which processor to use at runtime.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">Access Modifiers in API Security</h2>
+      <p class="text-gray-300 mb-4">
+        You should consider security at the low level of your code. Even access modifiers matter: they are the most basic “security level” of your design.
+        Expose the minimum amount of properties and methods possible — it also makes your code easier for other developers to use correctly.
+      </p>
+      <div class="bg-gray-950/40 border border-gray-800 rounded-xl p-4 overflow-x-auto">
+        <table class="w-full text-left text-sm">
+          <thead class="text-gray-300">
+            <tr>
+              <th class="py-2 pr-4">Modifier</th>
+              <th class="py-2 pr-4">Scope</th>
+              <th class="py-2">API Use Case</th>
+            </tr>
+          </thead>
+          <tbody class="text-gray-400">
+            <tr class="border-t border-gray-800">
+              <td class="py-2 pr-4 font-semibold text-gray-200">public</td>
+              <td class="py-2 pr-4">Accessible everywhere</td>
+              <td class="py-2">API controllers and DTOs</td>
+            </tr>
+            <tr class="border-t border-gray-800">
+              <td class="py-2 pr-4 font-semibold text-gray-200">protected</td>
+              <td class="py-2 pr-4">Same package and subclasses</td>
+              <td class="py-2">Base classes (use carefully)</td>
+            </tr>
+            <tr class="border-t border-gray-800">
+              <td class="py-2 pr-4 font-semibold text-gray-200">(default)</td>
+              <td class="py-2 pr-4">Package-private</td>
+              <td class="py-2">Internal helpers</td>
+            </tr>
+            <tr class="border-t border-gray-800">
+              <td class="py-2 pr-4 font-semibold text-gray-200">private</td>
+              <td class="py-2 pr-4">Only within the class</td>
+              <td class="py-2">Internal state management</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">== vs equals()</h2>
+      <p class="text-gray-300 mb-4">
+        In Java:
+      </p>
+      <ul class="list-disc list-inside text-gray-300 space-y-1">
+        <li><span class="font-semibold">==</span> compares object references (memory location)</li>
+        <li><span class="font-semibold">equals()</span> compares values</li>
+      </ul>
+      <p class="font-semibold mt-4 mb-2">Example – Comparing usernames in an API:</p>
+      <div class="bg-gray-950 border border-gray-800 rounded-xl p-4 overflow-x-auto">
+        <pre class="text-sm font-mono leading-relaxed"><code class="language-java">String username1 = new String("admin");
+String username2 = new String("admin");
+
+System.out.println(username1 == username2);      // false
+System.out.println(username1.equals(username2)); // true</code></pre>
+      </div>
+      <p class="text-sm text-gray-400 mt-4">
+        Recommendation: use <span class="font-semibold">equals()</span> for value comparisons in API data. Comparing instances is rare and should be intentional.
+      </p>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">static and final</h2>
+      <p class="text-gray-300 mb-4">
+        <span class="font-semibold">static</span> belongs to the class, not the instance — it can be used without an object instance.
+        <span class="font-semibold">final</span> cannot be changed after assignment — commonly used for constants.
+      </p>
+      <p class="font-semibold mb-2">Example – Defining API constants:</p>
+      <div class="bg-gray-950 border border-gray-800 rounded-xl p-4 overflow-x-auto">
+        <pre class="text-sm font-mono leading-relaxed"><code class="language-java">public class ApiConstants {
+  public static final String API_VERSION = "v1";
+  public static final String BASE_URL = "/api/" + API_VERSION;
+}</code></pre>
+      </div>
+    </section>
+
+    <section class="project-card p-6 bg-gray-900 rounded-xl border border-gray-800 animate-on-scroll">
+      <h2 class="text-2xl font-bold mb-3">Next Steps</h2>
+      <p class="text-gray-300 mb-4">
+        In the next lesson, we’ll explore how Java Collections and Streams can help process and transform data before sending it back to API clients.
+      </p>
+      <div class="text-center">
+        <a href="course-rest-apis-java-spring-part-3.html" class="btn-primary px-6 py-3 text-white rounded-xl font-semibold">
+          Continue to Part 3 →
+        </a>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="text-center py-10 border-t border-gray-800 text-gray-500 text-sm">
+  <p data-i18n="footer">© 2026 Code Sorcery Academy — Forged in Canada 🇨🇦</p>
+</footer>
+
+<script src="script.js"></script>
+
+</body>
+</html>
